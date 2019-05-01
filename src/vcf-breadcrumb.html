@@ -12,7 +12,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
 <link rel="import" href="../../vaadin-lumo-styles/typography.html">
 <link rel="import" href="../../vaadin-lumo-styles/spacing.html">
 
-<dom-module id="incubator-breadcrumb">
+<dom-module id="vcf-breadcrumb">
   <template>
     <style include="lumo-typography">
       :host(:last-of-type) [part="separator"],
@@ -43,19 +43,19 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
   <script>
     (function () {
       /**
-       * `<incubator-breadcrumb>` is a template for incubator components.
+       * `<vcf-breadcrumb>` is a template for vcf components.
        *
        * ```
-       * <incubator-breadcrumb>
-       * </incubator-breadcrumb>
+       * <vcf-breadcrumb>
+       * </vcf-breadcrumb>
        * ```
        *
        * @memberof Vaadin
        * @demo demo/index.html
        */
-      class IncubatorBreadcrumb extends Vaadin.ElementMixin(Vaadin.ThemableMixin(Polymer.Element)) {
+      class VcfBreadcrumb extends Vaadin.ElementMixin(Vaadin.ThemableMixin(Polymer.Element)) {
         static get is() {
-          return 'incubator-breadcrumb';
+          return 'vcf-breadcrumb';
         }
 
         ready() {
@@ -103,15 +103,15 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         }
       }
 
-      customElements.define(IncubatorBreadcrumb.is, IncubatorBreadcrumb);
+      customElements.define(VcfBreadcrumb.is, VcfBreadcrumb);
 
       /**
        * @namespace Vaadin
        */
-      window.Vaadin.IncubatorBreadcrumb = IncubatorBreadcrumb;
+      window.Vaadin.VcfBreadcrumb = VcfBreadcrumb;
 
       if (window.Vaadin.runIfDevelopmentMode) {
-        window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', IncubatorBreadcrumb);
+        window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', VcfBreadcrumb);
       }
     })();
   </script>

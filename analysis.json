@@ -6,7 +6,7 @@
       "description": "",
       "summary": "",
       "sourceRange": {
-        "file": "src/incubator-breadcrumbs.html",
+        "file": "src/vcf-breadcrumbs.html",
         "start": {
           "line": 44,
           "column": 6
@@ -18,9 +18,9 @@
       },
       "elements": [
         {
-          "description": "`<incubator-breadcrumbs>` is a template for incubator components.\n\n```\n<incubator-breadcrumbs>\n</incubator-breadcrumbs>\n```",
+          "description": "`<vcf-breadcrumbs>` is a template for vcf components.\n\n```\n<vcf-breadcrumbs>\n</vcf-breadcrumbs>\n```",
           "summary": "",
-          "path": "src/incubator-breadcrumbs.html",
+          "path": "src/vcf-breadcrumbs.html",
           "properties": [],
           "methods": [],
           "staticMethods": [],
@@ -43,7 +43,7 @@
           },
           "privacy": "public",
           "superclass": "HTMLElement",
-          "name": "Vaadin.VaadinIncubatorElement",
+          "name": "Vaadin.VaadinVcfElement",
           "attributes": [],
           "events": [],
           "styling": {
@@ -51,7 +51,7 @@
             "selectors": []
           },
           "slots": [],
-          "tagname": "incubator-breadcrumbs"
+          "tagname": "vcf-breadcrumbs"
         }
       ]
     }

@@ -1,12 +1,12 @@
 {
-  "name": "Vaadin Incubator Element",
+  "name": "Vaadin Vcf Element",
   "pages": [
   {
     "name": "Basics",
-    "url": "incubator-breadcrumbs-basic-demos",
-    "src": "incubator-breadcrumbs-basic-demos.html",
+    "url": "vcf-breadcrumbs-basic-demos",
+    "src": "vcf-breadcrumbs-basic-demos.html",
     "meta": {
-      "title": "incubator-breadcrumbs Basic Examples",
+      "title": "vcf-breadcrumbs Basic Examples",
       "description": "",
       "image": ""
      }

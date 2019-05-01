@@ -11,7 +11,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
 <link rel="import" href="../../vaadin-element-mixin/vaadin-element-mixin.html">
 <link rel="import" href="../../iron-media-query/iron-media-query.html">
 
-<dom-module id="incubator-breadcrumbs">
+<dom-module id="vcf-breadcrumbs">
   <template>
     <style>
       :host {
@@ -30,19 +30,19 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
   <script>
     (function () {
       /**
-       * `<incubator-breadcrumbss>` is a template for incubator components.
+       * `<vcf-breadcrumbss>` is a template for vcf components.
        *
        * ```
-       * <incubator-breadcrumbss>
-       * </incubator-breadcrumbss>
+       * <vcf-breadcrumbss>
+       * </vcf-breadcrumbss>
        * ```
        *
        * @memberof Vaadin
        * @demo demo/index.html
        */
-      class IncubatorBreadcrumbs extends Vaadin.ElementMixin(Vaadin.ThemableMixin(Polymer.Element)) {
+      class VcfBreadcrumbs extends Vaadin.ElementMixin(Vaadin.ThemableMixin(Polymer.Element)) {
         static get is() {
-          return 'incubator-breadcrumbs';
+          return 'vcf-breadcrumbs';
         }
 
         ready() {
@@ -91,22 +91,22 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         }
 
         _getSteps() {
-          const steps = this.querySelectorAll('incubator-breadcrumb');
+          const steps = this.querySelectorAll('vcf-breadcrumb');
           if (steps.length > 0) {
             this.set('steps', steps);
           }
         }
       }
 
-      customElements.define(IncubatorBreadcrumbs.is, IncubatorBreadcrumbs);
+      customElements.define(VcfBreadcrumbs.is, VcfBreadcrumbs);
 
       /**
        * @namespace Vaadin
        */
-      window.Vaadin.IncubatorBreadcrumbs = IncubatorBreadcrumbs;
+      window.Vaadin.VcfBreadcrumbs = VcfBreadcrumbs;
 
       if (window.Vaadin.runIfDevelopmentMode) {
-        window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', IncubatorBreadcrumbs);
+        window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', VcfBreadcrumbs);
       }
     })();
   </script>

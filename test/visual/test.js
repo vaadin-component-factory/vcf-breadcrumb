@@ -1,4 +1,4 @@
-gemini.suite('incubator-breadcrumbs', function(rootSuite) {
+gemini.suite('vcf-breadcrumbs', function(rootSuite) {
   function wait(actions, find) {
     actions.wait(5000);
   }

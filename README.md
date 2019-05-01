@@ -1,39 +1,39 @@
-[![Build Status](https://travis-ci.org/vaadin/incubator-breadcrumbs.svg?branch=master)](https://travis-ci.org/vaadin/incubator-breadcrumbs)
+[![Build Status](https://travis-ci.org/vaadin/vcf-breadcrumbs.svg?branch=master)](https://travis-ci.org/vaadin/vcf-breadcrumbs)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/web-components?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-# &lt;incubator-breadcrumbs&gt;
+# &lt;vcf-breadcrumbs&gt;
 
-[Live Demo ↗](https://incubator.app.fi/incubator-breadcrumbs)
+[Live Demo ↗](https://incubator.app.fi/vcf-breadcrumbs)
 
-[&lt;incubator-breadcrumbs&gt;](https://vaadin.com/directory/component/vaadinincubator-breadcrumb) is a Web Component providing an easy way to display breadcrumb on web pages.
+[&lt;vcf-breadcrumbs&gt;](https://vaadin.com/directory/component/vaadinvcf-breadcrumb) is a Web Component providing an easy way to display breadcrumb on web pages.
 
 ```html
-  <incubator-breadcrumbs>
-    <incubator-breadcrumb shift href="#">Home</incubator-breadcrumb>
-    <incubator-breadcrumb href="#">Directory</incubator-breadcrumb>
-    <incubator-breadcrumb href="#">Incubator Breadcrumb</incubator-breadcrumb>
-  </incubator-breadcrumbs>
+  <vcf-breadcrumbs>
+    <vcf-breadcrumb shift href="#">Home</vcf-breadcrumb>
+    <vcf-breadcrumb href="#">Directory</vcf-breadcrumb>
+    <vcf-breadcrumb href="#">Breadcrumb</vcf-breadcrumb>
+  </vcf-breadcrumbs>
 ```
 
-[<img src="https://raw.githubusercontent.com/vaadin/incubator-breadcrumb/master/screenshot.png" width="200" alt="Screenshot of incubator-breadcrumbs">](https://vaadin.com/directory/components/vaadinincubator-breadcrumbs)
+[<img src="https://raw.githubusercontent.com/vaadin/vcf-breadcrumb/master/screenshot.png" width="200" alt="Screenshot of vcf-breadcrumbs">](https://vaadin.com/directory/components/vaadinvcf-breadcrumbs)
 
 
 ## Installation
 
-The Vaadin Incubator components are distributed as Bower packages.
+The Vaadin Vcf components are distributed as Bower packages.
 
 ### Polymer 2 and HTML Imports compatible version
 
-Install `incubator-breadcrumbs`:
+Install `vcf-breadcrumbs`:
 
 ```sh
-bower i vaadin/incubator-breadcrumbs --save
+bower i vaadin/vcf-breadcrumbs --save
 ```
 
 Once installed, import it in your application:
 
 ```html
-<link rel="import" href="bower_components/incubator-breadcrumbs/incubator-breadcrumbs.html">
+<link rel="import" href="bower_components/vcf-breadcrumbs/vcf-breadcrumbs.html">
 ```
 
 ## Getting Started
@@ -42,38 +42,38 @@ Vaadin components use the Lumo theme by default.
 
 ## The file structure for Vaadin components
 
-- `src/incubator-breadcrumbs.html`
+- `src/vcf-breadcrumbs.html`
 
   Unstyled component.
 
-- `theme/lumo/incubator-breadcrumbs.html`
+- `theme/lumo/vcf-breadcrumbs.html`
 
   Component with Lumo theme.
 
-- `incubator-breadcrumbs.html`
+- `vcf-breadcrumbs.html`
 
-  Alias for theme/lumo/incubator-breadcrumbs.html
+  Alias for theme/lumo/vcf-breadcrumbs.html
 
 
 ## Running demos and tests in browser
 
-1. Fork the `incubator-breadcrumbs` repository and clone it locally.
+1. Fork the `vcf-breadcrumbs` repository and clone it locally.
 
 1. Make sure you have [npm](https://www.npmjs.com/) installed.
 
-1. When in the `incubator-breadcrumbs` directory, run `npm install` and then `bower install` to install dependencies.
+1. When in the `vcf-breadcrumbs` directory, run `npm install` and then `bower install` to install dependencies.
 
 1. Run `polymer serve --open`, browser will automatically open the component API documentation.
 
 1. You can also open demo or in-browser tests by adding **demo** or **test** to the URL, for example:
 
-  - http://127.0.0.1:8080/components/incubator-breadcrumbs/demo
-  - http://127.0.0.1:8080/components/incubator-breadcrumbs/test
+  - http://127.0.0.1:8080/components/vcf-breadcrumbs/demo
+  - http://127.0.0.1:8080/components/vcf-breadcrumbs/test
 
 
 ## Running tests from the command line
 
-1. When in the `incubator-breadcrumbs` directory, run `polymer test`
+1. When in the `vcf-breadcrumbs` directory, run `polymer test`
 
 
 ## Following the coding style

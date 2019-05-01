@@ -1,3 +1,3 @@
-window.VaadinIncubatorElementSuites = [
+window.VaadinVcfElementSuites = [
   'sample.html',
 ];

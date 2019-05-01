@@ -1,25 +1,25 @@
 {
-  "name": "@vaadin/incubator-breadcrumbs",
+  "name": "@vaadin/vcf-breadcrumbs",
   "version": "1.0.0",
-  "description": "incubator-breadcrumbs",
-  "main": "incubator-breadcrumbs.html",
-  "repository": "vaadin/incubator-breadcrumbs",
+  "description": "vcf-breadcrumbs",
+  "main": "vcf-breadcrumbs.html",
+  "repository": "vaadin/vcf-breadcrumbs",
   "keywords": [
     "Vaadin",
-    "incubator-breadcrumbs",
+    "vcf-breadcrumbs",
     "web-components",
     "web-component",
     "polymer"
   ],
   "author": "Vaadin Ltd",
-  "license": "https://raw.githubusercontent.com/vaadin/incubator-breadcrumbs/master/LICENSE",
+  "license": "https://raw.githubusercontent.com/vaadin/vcf-breadcrumbs/master/LICENSE",
   "bugs": {
-    "url": "https://github.com/vaadin/incubator-breadcrumbs/issues"
+    "url": "https://github.com/vaadin/vcf-breadcrumbs/issues"
   },
   "homepage": "https://vaadin.com/components",
   "scripts": {
     "test": "wct",
-    "analyze": "polymer analyze incubator-breadcrumbs.html > analysis.json",
+    "analyze": "polymer analyze vcf-breadcrumbs.html > analysis.json",
     "preversion": "gulp version:update"
   },
   "devDependencies": {

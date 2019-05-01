@@ -1,19 +1,19 @@
 {
-  "name": "incubator-breadcrumbs",
+  "name": "vcf-breadcrumbs",
   "homepage": "https://vaadin.com/components",
   "authors": [
     "Vaadin Ltd"
   ],
-  "description": "incubator-breadcrumbs",
-  "main": "incubator-breadcrumbs.html",
+  "description": "vcf-breadcrumbs",
+  "main": "vcf-breadcrumbs.html",
   "keywords": [
     "Vaadin",
-    "incubator-breadcrumbs",
+    "vcf-breadcrumbs",
     "web-components",
     "web-component",
     "polymer"
   ],
-  "license": "https://raw.githubusercontent.com/vaadin/incubator-breadcrumbs/master/LICENSE",
+  "license": "https://raw.githubusercontent.com/vaadin/vcf-breadcrumbs/master/LICENSE",
   "ignore": [
     "**/.*",
     "node_modules",
