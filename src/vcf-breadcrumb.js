@@ -9,6 +9,7 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin';
+import '@vaadin/vaadin-license-checker/vaadin-license-checker';
 
 /**
  * `<vcf-breadcrumb>` Web Component providing an easy way to display breadcrumb.
@@ -55,7 +56,7 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '1.2.0';
+    return '1.2.1';
   }
 
   ready() {
@@ -88,6 +89,19 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolymerElement)) {
     };
   }
 
+  /**
+   * @protected
+   */
+  static _finalizeClass() {
+    super._finalizeClass();
+
+    const devModeCallback = window.Vaadin.developmentModeCallback;
+    const licenseChecker = devModeCallback && devModeCallback['vaadin-license-checker'];
+    if (typeof licenseChecker === 'function') {
+      licenseChecker(VcfBreadcrumb);
+    }
+  }
+
   _getLabelClassName() {
     if (this.href !== '') {
       return 'hidden';
@@ -107,7 +121,3 @@ customElements.define(VcfBreadcrumb.is, VcfBreadcrumb);
  * @namespace Vaadin
  */
 window.Vaadin.VcfBreadcrumb = VcfBreadcrumb;
-
-if (window.Vaadin.runIfDevelopmentMode) {
-  window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', VcfBreadcrumb);
-}

@@ -9,6 +9,7 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin';
+import '@vaadin/vaadin-license-checker/vaadin-license-checker';
 import '@polymer/iron-media-query';
 
 /**
@@ -44,6 +45,10 @@ class VcfBreadcrumbs extends ElementMixin(ThemableMixin(PolymerElement)) {
     return 'vcf-breadcrumbs';
   }
 
+  static get version() {
+    return '1.2.1';
+  }
+
   ready() {
     super.ready();
 
@@ -69,6 +74,19 @@ class VcfBreadcrumbs extends ElementMixin(ThemableMixin(PolymerElement)) {
         value: '(max-width: 420px)'
       }
     };
+  }
+
+  /**
+   * @protected
+   */
+  static _finalizeClass() {
+    super._finalizeClass();
+
+    const devModeCallback = window.Vaadin.developmentModeCallback;
+    const licenseChecker = devModeCallback && devModeCallback['vaadin-license-checker'];
+    if (typeof licenseChecker === 'function') {
+      licenseChecker(VcfBreadcrumbs);
+    }
   }
 
   _isMobile() {
@@ -101,7 +119,3 @@ customElements.define(VcfBreadcrumbs.is, VcfBreadcrumbs);
  * @namespace Vaadin
  */
 window.Vaadin.VcfBreadcrumbs = VcfBreadcrumbs;
-
-if (window.Vaadin.runIfDevelopmentMode) {
-  window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', VcfBreadcrumbs);
-}
