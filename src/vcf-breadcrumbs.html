@@ -9,6 +9,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
 <link rel="import" href="../../polymer/polymer-element.html">
 <link rel="import" href="../../vaadin-themable-mixin/vaadin-themable-mixin.html">
 <link rel="import" href="../../vaadin-element-mixin/vaadin-element-mixin.html">
+<link rel="import" href="../../vaadin-license-checker/vaadin-license-checker.html">
 <link rel="import" href="../../iron-media-query/iron-media-query.html">
 
 <dom-module id="vcf-breadcrumbs">
@@ -74,6 +75,19 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           };
         }
 
+        /**
+         * @protected
+         */
+        static _finalizeClass() {
+          super._finalizeClass();
+
+          const devModeCallback = window.Vaadin.developmentModeCallback;
+          const licenseChecker = devModeCallback && devModeCallback['vaadin-license-checker'];
+          if (typeof licenseChecker === 'function') {
+            licenseChecker(VcfBreadcrumbs);
+          }
+        }
+
         _isMobile() {
           this._getSteps();
 
@@ -104,10 +118,6 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
        * @namespace Vaadin
        */
       window.Vaadin.VcfBreadcrumbs = VcfBreadcrumbs;
-
-      if (window.Vaadin.runIfDevelopmentMode) {
-        window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', VcfBreadcrumbs);
-      }
     })();
   </script>
 </dom-module>
