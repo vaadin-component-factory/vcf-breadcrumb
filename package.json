@@ -1,9 +1,12 @@
 {
-  "name": "@vaadin/vcf-breadcrumbs",
-  "version": "1.0.0",
+  "name": "@vaadin-component-factory/vcf-breadcrumbs",
+  "version": "1.0.1",
   "description": "vcf-breadcrumbs",
   "main": "vcf-breadcrumbs.html",
-  "repository": "vaadin/vcf-breadcrumbs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaadin-component-factory/vcf-breadcrumb.git"
+  },
   "keywords": [
     "Vaadin",
     "vcf-breadcrumbs",
@@ -12,7 +15,7 @@
     "polymer"
   ],
   "author": "Vaadin Ltd",
-  "license": "https://raw.githubusercontent.com/vaadin/vcf-breadcrumbs/master/LICENSE",
+  "license": "https://raw.githubusercontent.com/vaadin-component-factory/vcf-breadcrumb/master/LICENSE",
   "bugs": {
     "url": "https://github.com/vaadin/vcf-breadcrumbs/issues"
   },
