@@ -46,7 +46,7 @@ class VcfBreadcrumbs extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '1.2.1';
+    return '1.2.2';
   }
 
   ready() {

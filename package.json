@@ -1,10 +1,10 @@
 {
   "name": "@vaadin-component-factory/vcf-breadcrumb",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Web Component providing an easy way to display breadcrumb.",
   "main": "theme/lumo/vcf-breadcrumb.js",
   "author": "Vaadin Ltd",
-  "license": "https://raw.githubusercontent.com/vaadin/vaadin-incubator-element/master/LICENSE",
+  "license": "https://raw.githubusercontent.com/vaadin-component-factory/vcf-breadcrumb/master/LICENSE",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vaadin-component-factory/vcf-breadcrumb.git"
