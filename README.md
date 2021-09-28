@@ -1,5 +1,4 @@
 # vcf-breadcrumbs Web Component
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/web-components?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/vaadin-component-factoryvcf-breadcrumb)
 
 &lt;vcf-breadcrumbs&gt; is a Web Component providing an easy way to display breadcrumb on web pages.
