@@ -1,16 +1,8 @@
 # &lt;vcf-breadcrumb&gt;
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/web-components?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![npm version](https://badgen.net/npm/v/@vaadin-component-factory/vcf-breadcrumb)](https://www.npmjs.com/package/@vaadin-component-factory/vcf-breadcrumb)
-[![Published on Vaadin Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/vaadin-component-factoryvcf-breadcrumb)
 
-This is the npm version [vcf-breadcrumb](https://github.com/vaadin-component-factory/vcf-breadcrumb) developed using Polymer 3.
-
-[Live demo ↗](https://vcf-breadcrumb.netlify.com)
-|
-[API documentation ↗](https://vcf-breadcrumb.netlify.com/api/#/elements/Vaadin.VcfBreadcrumb)
-
-<img width="355" alt="screenshot (1)" src="https://user-images.githubusercontent.com/3392815/66923796-274e8880-f032-11e9-904d-073f894c199e.png">
+This is the LitElement based version of `<vcf-breadcrumbs>` Web Component.
 
 ## Installation
 
@@ -28,7 +20,7 @@ Once installed, import it in your application:
 import '@vaadin-component-factory/vcf-breadcrumb';
 ```
 
-Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-breadcrumb>` child elements, with `href` attribute. In case you want some `<vcf-breadcrumb>` elements to not be shown in mobile view, add attribute `shift` to those elements. When user click on `<vcf-breadcrumb>` element he/she will be navigated to ULR from `href` attribute of the element.
+Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-breadcrumb>` child elements, with `href` attribute. In case you want some `<vcf-breadcrumb>` elements collapse when there's not enough space, add attribute `collapse` to those elements. When user clicks on a `<vcf-breadcrumb>` element, it will navigate to the URL from `href` attribute of the element.
 
 ```html
 <vcf-breadcrumbs>
@@ -37,6 +29,29 @@ Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-
   <vcf-breadcrumb href="#">Breadcrumb</vcf-breadcrumb>
 </vcf-breadcrumbs>
 ```
+
+## Updates since version 2.0.0
+
+- Lit based component with theming support.
+- The first item in the breadcrumb is always shown in full.
+- The items can be collapsed when space runs out. This is configurable by using the attribute `collapse`. When availabe space is not enough to display the full label, then the label is shown with ellipsis.
+- If space is even more limited, and some breadcrumbs have the `collapse` attribute:
+    - Consecutive collapsed items are grouped into ranges.
+    - Each range is hidden when necessary and replaced with an ellipsis element.
+- `shift` attribute from previous version was removed. Responsive behavior is now given by the `collapse` attribute implementation.
+
+### Customize sepaartors
+
+By default, there are few css variables that help you update the separator's style:
+
+| CSS Variable | Definition | Default value |
+|--------------|------------|---------------|
+| --vcf-breadcrumb-separator-font-family | Font family of the separator icon | lumo-icons |
+| --vcf-breadcrumb-separator-symbol | Separator icon | var(--lumo-icons-angle-right) |
+| --vcf-breadcrumb-separator-color | Color of the separator icon | var(--lumo-contrast-40pct) |
+| --vcf-breadcrumb-separator-size | Size of the separator icon | var(--lumo-font-size-s) |  
+| --vcf-breadcrumb-separator-margin | Margin of the separator icon | 0 |    
+| --vcf-breadcrumb-separator-padding | Padding of the separator icon | 0 var(--lumo-space-xs) |    
 
 ## Running demo
 
@@ -52,12 +67,8 @@ Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-
 
 To contribute to the component, please read [the guideline](https://github.com/vaadin/vaadin-core/blob/master/CONTRIBUTING.md) first.
 
-## Vaadin Prime
-
-This component is available in the Vaadin Prime subscription. It is still open source, but you need to have a valid CVAL license in order to use it. Read more at: https://vaadin.com/pricing
-
 ## License
+Distributed under Apache Licence 2.0. 
 
-Commercial Vaadin Add-on License version 3 (CVALv3). For license terms, see LICENSE.
-
-Vaadin collects development time usage statistics to improve this product. For details and to opt-out, see https://github.com/vaadin/vaadin-usage-statistics.
+### Sponsored development
+Major pieces of development of this add-on has been sponsored by multiple customers of Vaadin. Read more about Expert on Demand at: [Support](https://vaadin.com/support) and [Pricing](https://vaadin.com/pricing).
