@@ -1,16 +1,9 @@
 # &lt;vcf-breadcrumb&gt;
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/web-components?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![npm version](https://badgen.net/npm/v/@vaadin-component-factory/vcf-breadcrumb)](https://www.npmjs.com/package/@vaadin-component-factory/vcf-breadcrumb)
 [![Published on Vaadin Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/vaadin-component-factoryvcf-breadcrumb)
 
-This is the npm version [vcf-breadcrumb](https://github.com/vaadin-component-factory/vcf-breadcrumb) developed using Polymer 3.
-
-[Live demo ↗](https://vcf-breadcrumb.netlify.com)
-|
-[API documentation ↗](https://vcf-breadcrumb.netlify.com/api/#/elements/Vaadin.VcfBreadcrumb)
-
-<img width="355" alt="screenshot (1)" src="https://user-images.githubusercontent.com/3392815/66923796-274e8880-f032-11e9-904d-073f894c199e.png">
+This is the LitElement based version of `<vcf-breadcrumbs>` Web Component.
 
 ## Installation
 
@@ -38,6 +31,33 @@ Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-
 </vcf-breadcrumbs>
 ```
 
+## Updates since version 2.0.0
+
+- Lit based component.
+- The first and last item in the breadcrumb are always shown in full.
+- The items between first and last can be clipped when space runs out.
+- If space is limited, only the first, last, and an ellipsis in the middle are shown.
+- `shift` attribute allows to hide elements except for first and last ones.
+
+### Customize vcf-breadcrumb
+
+By default, there are few css variables that help you to change the style of each vcf-breadcrumb:
+
+| CSS Variable | Definition | Default value |
+|--------------|------------|---------------|
+| --vcf-breadcrumb-separator-font-family | Font family of the separator icon | lumo-icons |
+| --vcf-breadcrumb-separator-symbol | Separator icon  | var(--lumo-icons-angle-right) |
+| --vcf-breadcrumb-separator-color | Color of the separator icon    | var(--lumo-contrast-40pct) |
+| --vcf-breadcrumb-separator-size | Size of the separator icon | var(--lumo-font-size-s) |  
+| --vcf-breadcrumb-separator-margin | Margin of the separator icon | 0 |    
+| --vcf-breadcrumb-separator-padding | Padding of the separator icon | 0 var(--lumo-space-xs) |    
+| --vcf-breadcrumb-anchor-text-decoration | Text decoration of the anchor in the breadcrumb | none |    
+| --vcf-breadcrumb-anchor-text-decoration-hover | Text decoration of the anchor in the breadcrumb on hover | underline |    
+| --vcf-breadcrumb-anchor-color | Color of the anchor in the breadcrumb | var(--lumo-primary-text-color) |   
+| --vcf-breadcrumb-anchor-color-hover  | Color of the anchor in the breadcrumb on hover | var(--vcf-breadcrumb-anchor-color) | 
+| --vcf-breadcrumb-ellipsis-color | Color of the ellipsis on the breadcrumb | var(--vcf-breadcrumb-anchor-color) | 
+| --vcf-breadcrumb-current-page-color | Color of the current page | var(--lumo-body-text-color) |  
+
 ## Running demo
 
 1. Fork the `vcf-breadcrumb` repository and clone it locally.
@@ -52,12 +72,8 @@ Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-
 
 To contribute to the component, please read [the guideline](https://github.com/vaadin/vaadin-core/blob/master/CONTRIBUTING.md) first.
 
-## Vaadin Prime
-
-This component is available in the Vaadin Prime subscription. It is still open source, but you need to have a valid CVAL license in order to use it. Read more at: https://vaadin.com/pricing
-
 ## License
+Distributed under Apache Licence 2.0. 
 
-Commercial Vaadin Add-on License version 3 (CVALv3). For license terms, see LICENSE.
-
-Vaadin collects development time usage statistics to improve this product. For details and to opt-out, see https://github.com/vaadin/vaadin-usage-statistics.
+### Sponsored development
+Major pieces of development of this add-on has been sponsored by multiple customers of Vaadin. Read more about Expert on Demand at: [Support](https://vaadin.com/support) and [Pricing](https://vaadin.com/pricing).

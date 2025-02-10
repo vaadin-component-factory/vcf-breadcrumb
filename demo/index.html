@@ -26,17 +26,39 @@
   </head>
   <body>
     <main class="vertical-section-container centered hidden">
-      <h4><a href="api/#/elements/Vaadin.VcfBreadcrumb">API documentation ↗</a></h4>
-      <h3>Demo sample</h3>
+      <h3>Basic Demo Sample</h3>
       <demo-snippet>
         <template>
-          <vcf-breadcrumbs>
-            <vcf-breadcrumb href="#" shift>Home</vcf-breadcrumb>
+          <vcf-breadcrumbs id="basic-example">
+            <vcf-breadcrumb href="#">Home</vcf-breadcrumb>
             <vcf-breadcrumb href="#">Directory</vcf-breadcrumb>
+            <vcf-breadcrumb href="#" shift>Components</vcf-breadcrumb>
+            <vcf-breadcrumb href="#">VCF Components</vcf-breadcrumb>
             <vcf-breadcrumb>Breadcrumb</vcf-breadcrumb>
           </vcf-breadcrumbs>
         </template>
       </demo-snippet>
-    </main>
+      <h3>Styling Demo Sample</h3>
+      <demo-snippet>
+        <template>
+          <style>
+            #styling-example vcf-breadcrumb  {
+              --vcf-breadcrumb-separator-symbol: "/";
+              --vcf-breadcrumb-separator-color: var(--lumo-contrast-80pct);
+              --vcf-breadcrumb-separator-size: var(--lumo-font-size-l);
+              --vcf-breadcrumb-anchor-color: var(--lumo-body-text-color);
+              --vcf-breadcrumb-anchor-color-hover: var(--lumo-primary-text-color);
+            }
+          </style>
+          <vcf-breadcrumbs id="styling-example">
+            <vcf-breadcrumb href="#" style="--vcf-breadcrumb-anchor-color: red; ">Home</vcf-breadcrumb>
+            <vcf-breadcrumb href="#">Directory</vcf-breadcrumb>
+            <vcf-breadcrumb href="#" shift>Components</vcf-breadcrumb>
+            <vcf-breadcrumb href="#">VCF Components</vcf-breadcrumb>
+            <vcf-breadcrumb>Breadcrumb</vcf-breadcrumb>
+          </vcf-breadcrumbs>
+        </template>
+      </demo-snippet>
+     </main>
   </body>
 </html>

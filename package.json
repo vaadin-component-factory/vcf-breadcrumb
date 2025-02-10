@@ -1,94 +1,67 @@
 {
   "name": "@vaadin-component-factory/vcf-breadcrumb",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "Web Component providing an easy way to display breadcrumb.",
-  "main": "theme/lumo/vcf-breadcrumb.js",
-  "author": "Vaadin Ltd",
+  "author": "Vaadin Ltd",  
+  "type": "module",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.js",
   "license": "https://raw.githubusercontent.com/vaadin-component-factory/vcf-breadcrumb/master/LICENSE",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./vcf-breadcrumbs.js": "./dist/src/vcf-breadcrumbs.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vaadin-component-factory/vcf-breadcrumb.git"
   },
   "keywords": [
     "Vaadin",
-    "vaadin-incubator-element",
     "vaadin-component-factory",
     "vcf-breadcrumb",
     "web-components",
     "web-component",
-    "polymer"
+    "lit-element",
+    "typescript",
+    "lit",
+    "vcf"
   ],
   "scripts": {
-    "test": "wct",
-    "lint": "eslint src/*.js",
-    "prestart": "polymer analyze src/*.js > analysis.json",
-    "start": "polymer serve -o",
-    "build:prod": "run-s build:api build:demo",
-    "build:api": "npm run prestart && polymer build",
-    "build:demo": "webpack",
-    "publish": "node util/publish.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/*.js": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
+    "analyze": "cem analyze --litelement",
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "build": "tsc && npm run analyze -- --exclude dist",
+    "prepublish": "tsc && npm run analyze -- --exclude dist",
+    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
+    "test": "tsc && wtr --coverage",
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "dependencies": {
-    "@polymer/polymer": "^3.0.0",
-    "@vaadin/vaadin-element-mixin": "^2.1.3",
-    "@vaadin/vaadin-license-checker": "^2.1.2",
-    "@vaadin/vaadin-lumo-styles": "^1.5.0",
-    "@vaadin/vaadin-themable-mixin": "^1.4.4"
+    "@vaadin/component-base": "^24.5.8",
+    "@vaadin/vaadin-lumo-styles": "^24.5.8",
+    "@vaadin/vaadin-themable-mixin": "^24.5.8",
+    "lit": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.3.4",
-    "@babel/preset-env": "^7.5.5",
+    "@custom-elements-manifest/analyzer": "^0.6.3",
+    "@open-wc/eslint-config": "^9.2.1",
+    "@open-wc/testing": "^3.1.6",
     "@polymer/iron-component-page": "^4.0.1",
     "@polymer/iron-demo-helpers": "^3.0.0-pre.19",
-    "@polymer/test-fixture": "^4.0.2",
+    "@types/jest": "^29.5.14",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.0",
+    "@web/dev-server": "^0.4.3",
+    "@web/test-runner": "^0.19.0",
     "@webcomponents/webcomponentsjs": "^2.0.0",
-    "babel-eslint": "^10.0.2",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-template-html-minifier": "^3.1.0",
-    "babel-plugin-transform-custom-element-classes": "^0.1.0",
-    "babel-preset-minify": "^0.5.1",
-    "brotli-webpack-plugin": "^1.1.0",
-    "chai": "^4.2.0",
-    "colors": "^1.3.3",
-    "compression-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^5.0.4",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-config-vaadin": "^0.2.7",
-    "eslint-plugin-html": "^6.0.0",
-    "html-replace-webpack-plugin": "^2.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "html-webpack-tags-plugin": "^2.0.15",
-    "husky": "^2.3.0",
-    "lint-staged": "^8.1.7",
-    "mocha": "^5.2.0",
-    "npm-run-all": "^4.1.5",
-    "polymer-cli": "^1.9.10",
-    "prettier": "^1.17.1",
-    "prompt": "^1.0.0",
-    "replace-in-file": "^4.1.2",
-    "shelljs": "^0.8.3",
-    "terser-webpack-plugin": "^1.4.1",
-    "uglify-template-string-loader": "^1.1.1",
-    "wct-mocha": "^1.0.0",
-    "webpack": "^4.39.2",
-    "webpack-babel-multi-target-plugin": "^2.3.0",
-    "webpack-cli": "^3.3.7",
-    "webpack-dev-server": "^3.8.0",
-    "webpack-merge": "^4.2.1"
+    "concurrently": "^7.2.2",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.5.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "tslib": "^2.4.0",
+    "typescript": "^5.5.2"
   },
   "bugs": {
     "url": "https://github.com/vaadin-component-factory/vcf-breadcrumb/issues"
@@ -96,5 +69,43 @@
   "homepage": "https://github.com/vaadin-component-factory/vcf-breadcrumb#readme",
   "directories": {
     "test": "test"
+  },
+  "customElements": "custom-elements.json",
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "@open-wc",
+      "prettier"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "error",
+      "import/no-unresolved": "off",
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "ignorePackages": true
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
