@@ -47,7 +47,11 @@
               --vcf-breadcrumb-separator-color: var(--lumo-contrast-80pct);
               --vcf-breadcrumb-separator-size: var(--lumo-font-size-l);
               --vcf-breadcrumb-anchor-color: var(--lumo-body-text-color);
-              --vcf-breadcrumb-anchor-color-hover: var(--lumo-primary-text-color);
+            }
+
+            #styling-example vcf-breadcrumb .breadcrumb-anchor:hover {
+              --vcf-breadcrumb-anchor-color: var(--lumo-primary-text-color);
+              --vcf-breadcrumb-anchor-text-decoration: underline;
             }
           </style>
           <vcf-breadcrumbs id="styling-example">

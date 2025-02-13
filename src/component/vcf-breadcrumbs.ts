@@ -57,7 +57,7 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
     return css`
         :host {
           display: block;
-        }
+        }     
     `;
   }
 
@@ -109,7 +109,7 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
     if (totalWidth > containerWidth) {
       // Hide middle items, excluding the ellipsis
       breadcrumbs.slice(1, -1).forEach((breadcrumb) => {
-        if(breadcrumb.getAttribute("part") != "ellipsis") {
+      if(breadcrumb.getAttribute("part") != "ellipsis") {
           breadcrumb.style.display = 'none';
         }        
       });
@@ -125,6 +125,7 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
         // Make sure the ellipsis is visible and positioned correctly
         ellipsis.style.display = 'inline-block';
         ellipsis.style.flexShrink = '0';
+        ellipsis.style.minWidth = '0';
 
         // Update ellipsis color
         ellipsis.style.color = "var(--vcf-breadcrumb-ellipsis-color)";

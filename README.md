@@ -52,9 +52,7 @@ By default, there are few css variables that help you to change the style of eac
 | --vcf-breadcrumb-separator-margin | Margin of the separator icon | 0 |    
 | --vcf-breadcrumb-separator-padding | Padding of the separator icon | 0 var(--lumo-space-xs) |    
 | --vcf-breadcrumb-anchor-text-decoration | Text decoration of the anchor in the breadcrumb | none |    
-| --vcf-breadcrumb-anchor-text-decoration-hover | Text decoration of the anchor in the breadcrumb on hover | underline |    
 | --vcf-breadcrumb-anchor-color | Color of the anchor in the breadcrumb | var(--lumo-primary-text-color) |   
-| --vcf-breadcrumb-anchor-color-hover  | Color of the anchor in the breadcrumb on hover | var(--vcf-breadcrumb-anchor-color) | 
 | --vcf-breadcrumb-ellipsis-color | Color of the ellipsis on the breadcrumb | var(--vcf-breadcrumb-anchor-color) | 
 | --vcf-breadcrumb-current-page-color | Color of the current page | var(--lumo-body-text-color) |  
 

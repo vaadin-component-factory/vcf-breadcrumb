@@ -8,6 +8,6 @@ registerStyles(
       justify-content: start;
       align-content: center;
       align-items: center;
-    }    
+    }   
   `
 );

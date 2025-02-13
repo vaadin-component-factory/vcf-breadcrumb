@@ -94,6 +94,8 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
     anchor.setAttribute("href", this.href);
     anchor.setAttribute("id", "link");
     anchor.classList.add("breadcrumb-anchor");
+    anchor.style.setProperty("color", "var(--vcf-breadcrumb-anchor-color)");
+    anchor.style.setProperty("text-decoration", "var(--vcf-breadcrumb-anchor-text-decoration)");
     const linkClassName = this._getLinkClassName();
     if(linkClassName) {
       anchor.classList.add(linkClassName);
@@ -109,7 +111,7 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
     const label = this.shadowRoot?.querySelector("#label");
     let slot = this.shadowRoot?.querySelector("#pageLabel") as HTMLSlotElement;
     const labelText = slot.assignedNodes({ flatten: true })[0];
-
+    
     if (!this.href) {
       if(slot)  {
         label?.appendChild(slot);
