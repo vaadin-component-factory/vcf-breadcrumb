@@ -141,7 +141,7 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
   
   render() {
     return html`
-      <div part="links-list">
+      <div role="list" part="links-list">
         <slot></slot>
       </div>
     `;
