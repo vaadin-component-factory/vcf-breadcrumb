@@ -58,7 +58,7 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
 
   render() {
      return html`
-      <span part="link">
+      <span role="listitem" part="link">
         <slot id="pageLabel"></slot>
         <span id="label" tabindex="0" class=${ifDefined(this._getLabelClassName())}>
         </span>
