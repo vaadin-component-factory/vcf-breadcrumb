@@ -11,6 +11,11 @@
     ".": "./dist/src/index.js",
     "./vcf-breadcrumbs.js": "./dist/src/vcf-breadcrumbs.js"
   },
+  "files": [
+    "vcf-*.js",
+    "src",
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vaadin-component-factory/vcf-breadcrumb.git"
