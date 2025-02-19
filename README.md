@@ -24,11 +24,16 @@ Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-
 
 ```html
 <vcf-breadcrumbs>
-  <vcf-breadcrumb shift href="#">Home</vcf-breadcrumb>
+  <vcf-breadcrumb href="#">Home</vcf-breadcrumb>
   <vcf-breadcrumb href="#">Directory</vcf-breadcrumb>
-  <vcf-breadcrumb href="#">Breadcrumb</vcf-breadcrumb>
+  <vcf-breadcrumb href="#" collapse>Components</vcf-breadcrumb>
+  <vcf-breadcrumb href="#" collapse>VCF Components</vcf-breadcrumb>
+  <vcf-breadcrumb>Breadcrumb</vcf-breadcrumb>
 </vcf-breadcrumbs>
 ```
+![breadcrumbs-01](https://github.com/user-attachments/assets/68327eba-57d6-48ad-9b92-3e0bf9c2623b)
+![breadcrumbs-02](https://github.com/user-attachments/assets/f56e9aa0-756a-412e-86d6-71ee341fd878)
+![breadcrumbs-03](https://github.com/user-attachments/assets/ae3b4816-0892-4651-b002-b4ac99412687)
 
 ## Updates since version 2.0.0
 
@@ -40,7 +45,7 @@ Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-
     - Each range is hidden when necessary and replaced with an ellipsis element.
 - `shift` attribute from previous version was removed. Responsive behavior is now given by the `collapse` attribute implementation.
 
-### Customize sepaartors
+### Customize separators
 
 By default, there are few css variables that help you update the separator's style:
 
