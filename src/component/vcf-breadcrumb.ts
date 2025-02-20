@@ -79,11 +79,7 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
         :host(:last-of-type) [part='separator'] {
           display: none;
         }        
-        
-        .hidden {
-          display: none;
-        }
-    
+
         :host {
           display: flex;
           align-items: center;
@@ -100,10 +96,6 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
       anchor.setAttribute("href", this.href);
     }
     anchor.classList.add("breadcrumb-anchor");
-    const linkClassName = this._getLinkClassName();
-    if(linkClassName) {
-      anchor.classList.add(linkClassName);
-    }      
     // Get anchor label from #pageLabel slot
     let labelSlot = this.shadowRoot?.querySelector("#pageLabel") as HTMLSlotElement;
     const labelText = labelSlot.assignedNodes({ flatten: true })[0];
@@ -125,12 +117,7 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
   _isEllipsisElement() {
     return this.getAttribute("part") === "ellipsis";
   }
-
-  _getLinkClassName() {
-    if (this.href === '') {
-      return 'hidden';
-    }
-  } 
+ 
 }
 
 export { VcfBreadcrumb };
