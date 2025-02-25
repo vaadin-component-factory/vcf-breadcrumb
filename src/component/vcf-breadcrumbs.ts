@@ -22,6 +22,8 @@ import { ThemableMixin } from "@vaadin/vaadin-themable-mixin/vaadin-themable-mix
 import { ElementMixin } from '@vaadin/component-base/src/element-mixin.js';
 import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
 import { ResizeMixin } from '@vaadin/component-base/src/resize-mixin.js';
+import '@vaadin/popover';
+import '@vaadin/vertical-layout';
 
 /**
  * A Web Component based on LitElement for displaying breadcrumbs.
@@ -31,6 +33,7 @@ import { ResizeMixin } from '@vaadin/component-base/src/resize-mixin.js';
  * - Uses `ResizeMixin` to dynamically update visibility based on available space.
  * - The first breadcrumb always remains visible and does not shrink.
  * - Implements accessibility attributes to improved usability.
+ * - Uses a `vaadin-popover` to display hidden breadcrumbs when the ellipsis is clicked.
  * - Themeable via Vaadin's ThemableMixin.
  * 
  * Example usage:
@@ -62,18 +65,18 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
   }
 
   static get version() {
-    return '2.0.1';
+    return '2.1.0';
   }
 
   static get styles() {
     return css`
         :host {
           display: block;
-        }     
+        }          
     `;
   }
 
-   /**
+  /**
    * Implement callback from `ResizeMixin` to update the vcf-breadcrumb elements visibility.
    *
    * @protected
@@ -87,12 +90,13 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
    * Updates the visibility of breadcrumbs based on available space.
    * 
    * - If all breadcrumbs have enough space, they are fully visible with no shrinking.
-   * - If some breadcrumbs have the "collapse" attribute and space is limited:
+   * - If space is limited and some breadcrumbs have the "collapse" attribute:
    *    - Consecutive collapsed items are grouped into ranges.
-   *    - Each range is hidden when necessary and replaced with an ellipsis element.
-   * - If space allows, previously hidden items are restored and ellipses are removed.
+   *    - These ranges are hidden when necessary and replaced with an ellipsis element.
+   *    - The ellipsis element serves as an interactive control, revealing hidden breadcrumbs in a popover.
+   * - If more space becomes available, hidden items are restored, and unnecessary ellipses are removed.
    * - The first breadcrumb remains fully visible and does not shrink.
-   */
+   */   
   _updateBreadcrumbs() {
     // Get all breadcrumbs elements
     const breadcrumbs = Array.from(this.children) as HTMLElement[];
@@ -136,22 +140,26 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
     if (totalWidth > containerWidth) {
       collapseRanges.forEach(({ start }) => {
         const collapseItem = breadcrumbs[start];
+
+        // save the collapsed items
+        let hiddenItems = [];
   
         // Hide collapsed items within this range
         for (let i = start; i <= collapseRanges.find(r => r.start === start)?.end!; i++) {
           breadcrumbs[i].style.display = 'none';
+          hiddenItems.push(breadcrumbs[i]);
         }
   
         // Insert an ellipsis element if it doesn't already exist
         if (collapseItem.previousElementSibling?.getAttribute("part") != "ellipsis") {
-          let ellipsis = this._createEllipsisBreadcrumb();
+          let ellipsis = this._createEllipsisBreadcrumb(hiddenItems);
           collapseItem.insertAdjacentElement("beforebegin", ellipsis);
-        }
+        }        
       });
     } 
   }
 
-  /**
+ /**
   * Finds ranges of consecutive elements that have the "collapse" attribute.
   */
   _findCollapseRanges(breadcrumbs: HTMLElement[]) { 
@@ -179,21 +187,68 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
   /**
    * Creates an ellipsis breadcrumb element to represent hidden items.
    * 
-   * - The element is a `<vcf-breadcrumb>` with an "ellipsis" part.
-   * - It displays as "…" to indicate collapsed breadcrumbs.
-   * - It does not shrink and maintains minimal width to avoid layout shifts.
-   * - This element is inserted dynamically when space constraints require hiding breadcrumbs.
+   * - The element is a `<vcf-breadcrumb>` with a unique ID and "ellipsis" part.
+   * - It displays "…" to indicate collapsed breadcrumbs.
+   * - It does not shrink and maintains minimal width to prevent layout shifts.
+   * - A `vaadin-popover` is attached to display the hidden breadcrumbs as a vertical list.
+   * - Clicking an item inside the popover closes the popover.
+   * - The ellipsis is dynamically inserted and removed as needed based on available space.
    * 
-   * @returns {HTMLElement} An ellipsis breadcrumb element.
+   * @param {HTMLElement[]} hiddenItems - The list of breadcrumbs that will be hidden and represented by the ellipsis
+   * @returns {HTMLElement} An ellipsis breadcrumb element with an associated popover
    */
-  _createEllipsisBreadcrumb() {
+  _createEllipsisBreadcrumb(hiddenItems: HTMLElement[]) {
     let ellipsis = document.createElement("vcf-breadcrumb");
+    const id = "ellipsis-" + crypto.randomUUID();
+    ellipsis.setAttribute("id", id);
     ellipsis.setAttribute("part", "ellipsis");
+    ellipsis.setAttribute("aria-label", "Hidden breadcrumbs");
     ellipsis.innerText = "…";
     // Make sure the ellipsis is visible and positioned correctly
     ellipsis.style.display = 'inline-block';
     ellipsis.style.flexShrink = '0';
     ellipsis.style.minWidth = '0';
+
+    // Create a popover to show the hidden breadcumbs and add it to the ellipsis element
+    let popover = document.createElement("vaadin-popover");
+    popover.setAttribute("for", id);
+    popover.setAttribute("overlay-role", "menu");
+    popover.setAttribute('accessible-name-ref', "hidden breadcrumbs"); 
+    popover.setAttribute("theme", "hidden-breadcrumbs");
+    popover.setAttribute("position", "bottom-start");
+    popover.setAttribute("modal", "true");
+
+    popover.renderer = (root) => {
+      // Ensure content is only added once
+      if (!root.firstChild) {
+        const verticalLayout = document.createElement('vaadin-vertical-layout');
+        verticalLayout.classList.add('hidden-breadcrumbs-layout');
+
+        // create new anchor elements for the hidden items and add them to the vertical layout
+        hiddenItems.forEach((element) => {
+          const item = document.createElement('a');
+          item.textContent = element.textContent;
+          item.setAttribute("href", element.getAttribute('href') ?? '');
+          item.setAttribute("role", "menuitem");
+          item.classList.add();
+          // Copy element class list
+          const elementClasses = Array.from(element.classList);
+          item.classList.add(...elementClasses);
+          item.classList.add("hidden-breadcrumb-anchor");
+
+          // Add click event to close popover when clicking an item
+          item.addEventListener("click", () => {
+            popover.opened = false;
+          });
+
+          verticalLayout.appendChild(item); 
+        });              
+        root.appendChild(verticalLayout);    
+      }
+    };
+
+    // append popover to ellipsis to move it later to the anchor within the container
+    ellipsis.appendChild(popover);
     return ellipsis;
   }
   
