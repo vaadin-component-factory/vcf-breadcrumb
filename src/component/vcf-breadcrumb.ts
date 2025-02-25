@@ -61,7 +61,7 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
   }
 
   static get version() {
-    return '2.0.1';
+    return '2.1.0';
   }
 
   render() {
@@ -84,7 +84,7 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
           display: flex;
           align-items: center;
           min-width: 40px;
-        }
+        }       
     `];
   }
 
@@ -100,6 +100,17 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
     let labelSlot = this.shadowRoot?.querySelector("#pageLabel") as HTMLSlotElement;
     const labelText = labelSlot.assignedNodes({ flatten: true })[0];
     anchor.appendChild(labelText);
+
+    // Add popover for ellipsis mode
+    if (this._isEllipsisElement()) {
+      anchor.setAttribute('tabindex', '0');
+      const popover = this.querySelector('vaadin-popover[for="' + this.id + '"]');
+      if (popover) {
+        anchor.appendChild(popover);
+      }
+      anchor.setAttribute("id", this.id);
+      this.removeAttribute("id");
+    }
 
     this.appendChild(anchor);
   }
