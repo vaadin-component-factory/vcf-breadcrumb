@@ -32,7 +32,7 @@
           <vcf-breadcrumbs id="basic-example">
             <vcf-breadcrumb href="#">Home</vcf-breadcrumb>
             <vcf-breadcrumb href="#">Directory</vcf-breadcrumb>
-            <vcf-breadcrumb href="#">Components</vcf-breadcrumb>
+            <vcf-breadcrumb href="#" collapse>Components</vcf-breadcrumb>
             <vcf-breadcrumb href="#">VCF Components</vcf-breadcrumb>
             <vcf-breadcrumb>Breadcrumb</vcf-breadcrumb>
           </vcf-breadcrumbs>
@@ -42,22 +42,23 @@
       <demo-snippet>
         <template>
           <style>
-            #collapse-example vcf-breadcrumb .breadcrumb-anchor {
+            .collapse-example-class .breadcrumb-anchor, .collapse-example-class.hidden-breadcrumb-anchor {
               color: var(--lumo-primary-text-color);
               text-decoration: none;
             }
-            #collapse-example vcf-breadcrumb[aria-current="page"] .breadcrumb-anchor {
+
+            .collapse-example-class[aria-current="page"] .breadcrumb-anchor {
               color: var(--lumo-body-text-color);
-            }
+            }            
           </style>
           <vcf-breadcrumbs id="collapse-example">
-            <vcf-breadcrumb href="#">Home</vcf-breadcrumb>
-            <vcf-breadcrumb href="#" collapse>Directory</vcf-breadcrumb>
-            <vcf-breadcrumb href="#" collapse>Flow</vcf-breadcrumb>
-            <vcf-breadcrumb href="#" >Vaadin Latest</vcf-breadcrumb>
-            <vcf-breadcrumb href="#" collapse>Components</vcf-breadcrumb>
-            <vcf-breadcrumb href="#" collapse>VCF Components</vcf-breadcrumb>
-            <vcf-breadcrumb>Breadcrumb</vcf-breadcrumb>
+            <vcf-breadcrumb class="collapse-example-class" href="#">Home</vcf-breadcrumb>
+            <vcf-breadcrumb class="collapse-example-class" href="#" collapse>Directory</vcf-breadcrumb>
+            <vcf-breadcrumb class="collapse-example-class" href="#" collapse>Flow</vcf-breadcrumb>
+            <vcf-breadcrumb class="collapse-example-class" href="#" collapse>Vaadin Latest</vcf-breadcrumb>
+            <vcf-breadcrumb class="collapse-example-class" href="#" >Components</vcf-breadcrumb>
+            <vcf-breadcrumb class="collapse-example-class" href="#" collapse>VCF Components</vcf-breadcrumb>
+            <vcf-breadcrumb class="collapse-example-class">Breadcrumb</vcf-breadcrumb>
           </vcf-breadcrumbs>
         </template>
       </demo-snippet>
@@ -71,10 +72,12 @@
               --vcf-breadcrumb-separator-size: var(--lumo-font-size-l);
               color: var(--lumo-body-text-color);
             }
-            #styling-example vcf-breadcrumb .breadcrumb-anchor {
+
+            .styling-example-class .breadcrumb-anchor, .styling-example-class.hidden-breadcrumb-anchor  {
               color: var(--lumo-body-text-color);
               text-decoration: none;
             }
+
             #styling-example vcf-breadcrumb[aria-current="page"] .breadcrumb-anchor {
               color: var(--lumo-contrast-60pct);
             }
@@ -90,10 +93,10 @@
           </style>
           <vcf-breadcrumbs id="styling-example">
             <vcf-breadcrumb href="#" class="first">Home</vcf-breadcrumb>
-            <vcf-breadcrumb href="#">Directory</vcf-breadcrumb>
-            <vcf-breadcrumb href="#" collapse>Components</vcf-breadcrumb>
-            <vcf-breadcrumb href="#">VCF Components</vcf-breadcrumb>
-            <vcf-breadcrumb>Breadcrumb</vcf-breadcrumb>
+            <vcf-breadcrumb href="#" collapse class="styling-example-class">Directory</vcf-breadcrumb>
+            <vcf-breadcrumb href="#" collapse class="styling-example-class">Components</vcf-breadcrumb>
+            <vcf-breadcrumb href="#" class="styling-example-class">VCF Components</vcf-breadcrumb>
+            <vcf-breadcrumb class="styling-example-class">Breadcrumb</vcf-breadcrumb>
           </vcf-breadcrumbs>
         </template>
       </demo-snippet>
