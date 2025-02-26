@@ -230,7 +230,6 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
           item.textContent = element.textContent;
           item.setAttribute("href", element.getAttribute('href') ?? '');
           item.setAttribute("role", "menuitem");
-          item.classList.add();
           // Copy element class list
           const elementClasses = Array.from(element.classList);
           item.classList.add(...elementClasses);
