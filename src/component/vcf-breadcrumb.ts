@@ -109,6 +109,18 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
       anchor.setAttribute("id", this.id);
       const popover = this.querySelector('vaadin-popover[for="' + this.id + '"]');
       if (popover) {
+        anchor.addEventListener("keydown", (event) => {
+          if (event.key === " " || event.key === "Space") {
+            event.preventDefault();
+             // @ts-ignore
+            popover.opened = !popover.opened;
+          }
+        });     
+        popover.addEventListener("opened-changed", (event) => {
+          if (!((event as CustomEvent).detail.value)) {
+            anchor.focus(); // Return focus to the ellipsis element
+          }
+        });      
         anchor.appendChild(popover);
       }      
       this.removeAttribute("id");
