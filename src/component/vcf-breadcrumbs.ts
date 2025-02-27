@@ -95,6 +95,9 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
    * - The first breadcrumb remains fully visible and does not shrink.
    */   
   _updateBreadcrumbs() {
+    // Remove existing ellipsis elements before recalculating
+    this.querySelectorAll('[part="ellipsis"]').forEach((el) => el.remove());
+
     // Get all breadcrumbs elements
     const breadcrumbs = Array.from(this.children) as HTMLElement[];
 
@@ -122,19 +125,16 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
     firstBreadcrumb.style.minWidth = 'auto';
 
     // Get available space in the container
-    const containerWidth = this.clientWidth;
+    const containerWidth = this.getClientRects()[0].width;
 
     // Calculate total width of all breadcrumbs
-    let totalWidth = breadcrumbs.reduce((sum, item) => sum + item.offsetWidth, 0);
+    let totalWidth = breadcrumbs.reduce((sum, item) => sum + item.getClientRects()[0].width, 0);
 
     // Find collapse ranges
     const collapseRanges = this._findCollapseRanges(breadcrumbs);
 
-    // Remove existing ellipsis elements before recalculating
-    this.querySelectorAll('[part="ellipsis"]').forEach((el) => el.remove());
-
     // If space is very limited, handle collapsing logic
-    if (totalWidth > containerWidth) {
+    if (totalWidth > (containerWidth + 1)) {
       collapseRanges.forEach(({ start }) => {
         const collapseItem = breadcrumbs[start];
 
