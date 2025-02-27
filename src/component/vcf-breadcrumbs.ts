@@ -17,7 +17,7 @@
  * #L%
  */
 import { html, LitElement, css } from "lit";
-import { customElement, queryAssignedElements} from 'lit/decorators.js';
+import { customElement} from 'lit/decorators.js';
 import { ThemableMixin } from "@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js";
 import { ElementMixin } from '@vaadin/component-base/src/element-mixin.js';
 import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
@@ -56,9 +56,6 @@ import '@vaadin/vertical-layout';
  */
 @customElement("vcf-breadcrumbs")
 export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(PolylitMixin(LitElement)))) {
-  
-  @queryAssignedElements()
-  steps!: Array<HTMLElement>;
 
   static get is() {
     return 'vcf-breadcrumbs';
