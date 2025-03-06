@@ -42,5 +42,15 @@ registerStyles(
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+
+    /* Focus ring */
+    :host(:focus-within) [part="link"] {
+      outline: var(--vaadin-focus-ring-color, var(--lumo-primary-color-50pct)) auto 1px;
+      outline-offset: 1px;
+    }
+
+    ::slotted(a:focus) {
+      outline: none;
+    }
   `
 );
