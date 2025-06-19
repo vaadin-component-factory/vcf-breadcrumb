@@ -58,6 +58,18 @@ By default, there are few css variables that help you update the separator's sty
 | --vcf-breadcrumb-separator-margin | Margin of the separator icon | 0 |    
 | --vcf-breadcrumb-separator-padding | Padding of the separator icon | 0 var(--lumo-space-xs) |    
 
+## Updates since version 2.2.0
+
+Added support for [Mobile Mode](https://github.com/vaadin-component-factory/vcf-breadcrumb/issues/6). It can be triggered in two ways:
+- Based on a fixed breakpoint (same as other Vaadin components): `(max-width: 450px), (max-height: 450px)` or
+- Programmatically, using the flag `forceMobileMode`, which allows to enable mobile layout manually
+
+When in Mobile Mode, Breadcrumbs are styled for mobile navigation showing only back path.
+- Shows the last breadcrumb unless it's the current one
+- Shows the breadcrumb directly before the current one
+
+By default, mobile mode shows a back icon that can be customized using the CSS variable: `--vcf-breadcrumb-mobile-back-symbol`
+
 ## Running demo
 
 1. Fork the `vcf-breadcrumb` repository and clone it locally.

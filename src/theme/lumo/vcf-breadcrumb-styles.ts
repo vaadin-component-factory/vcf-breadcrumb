@@ -18,6 +18,7 @@ registerStyles(
       --vcf-breadcrumb-separator-size: var(--lumo-font-size-s);
       --vcf-breadcrumb-separator-margin: 0;
       --vcf-breadcrumb-separator-padding: 0 var(--lumo-space-xs);
+      --vcf-breadcrumb-mobile-back-symbol: var(--lumo-icons-angle-left);
     }
 
     :host {
@@ -51,6 +52,20 @@ registerStyles(
 
     ::slotted(a:focus) {
       outline: none;
+    }
+
+    /* mobile back mode */
+    :host(.mobile-back) {
+      display: none;
+    }
+
+    :host(.mobile-back) [part='separator'] {
+      display: none;
+    }
+
+    :host(.mobile-back.is-last-not-current),
+    :host(.mobile-back.is-before-current) {
+      display: inline-block;
     }
   `
 );

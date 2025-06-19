@@ -17,9 +17,10 @@
  * #L%
  */
 import { html, LitElement, css } from "lit";
-import { customElement} from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { ThemableMixin } from "@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js";
 import { ElementMixin } from '@vaadin/component-base/src/element-mixin.js';
+import { MediaQueryController } from '@vaadin/component-base/src/media-query-controller.js';
 import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
 import { ResizeMixin } from '@vaadin/component-base/src/resize-mixin.js';
 import '@vaadin/popover';
@@ -35,6 +36,11 @@ import '@vaadin/vertical-layout';
  * - Implements accessibility attributes to improved usability.
  * - Uses a `vaadin-popover` to display hidden breadcrumbs when the ellipsis is clicked.
  * - Themeable via Vaadin's ThemableMixin.
+ * 
+ * Since version 2.2.0, mobile mode is added, which can be triggered in two ways:
+ * - Based on a fixed breakpoint (same as other Vaadin components):  
+ *   `(max-width: 450px), (max-height: 450px)`
+ * - Programmatically, using the flag `forceMobileMode`, which allows to enable mobile layout manually.
  * 
  * Example usage:
  * ```html
@@ -57,12 +63,35 @@ import '@vaadin/vertical-layout';
 @customElement("vcf-breadcrumbs")
 export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(PolylitMixin(LitElement)))) {
 
+  /**
+   * Flag to indicate if the component is in mobile mode. 
+   * Set based on the value of _mobileMediaQuery.
+   */
+  @state() 
+  private _mobile = false;
+
+  /**
+   * Media query definition to determine if the component is in mobile mode.
+   * This is used to apply responsive styles and behavior.
+   * The value is set to match the same breakpoint as other Vaadin components:
+   * `(max-width: 450px), (max-height: 450px)`.
+   */
+  @state()
+  private _mobileMediaQuery = '(max-width: 450px), (max-height: 450px)';
+
+  /**
+   * Flag to force mobile mode, which allows the component to display in a mobile-friendly layout regardless of the screen size.
+   * @attr {boolean} force-mobile-mode
+   */
+  @property({ type: Boolean })
+  forceMobileMode = false;
+
   static get is() {
     return 'vcf-breadcrumbs';
   }
 
   static get version() {
-    return '2.1.1';
+    return '2.2.0';
   }
 
   static get styles() {
@@ -84,8 +113,9 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
   }
 
   /**
-   * Updates the visibility of breadcrumbs based on available space.
-   * 
+   * Updates the visibility of breadcrumbs based on available space and mobile mode.
+   *
+   * Behavior summary: 
    * - If all breadcrumbs have enough space, they are fully visible with no shrinking.
    * - If space is limited and some breadcrumbs have the "collapse" attribute:
    *    - Consecutive collapsed items are grouped into ranges.
@@ -93,21 +123,25 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
    *    - The ellipsis element serves as an interactive control, revealing hidden breadcrumbs in a popover.
    * - If more space becomes available, hidden items are restored, and unnecessary ellipses are removed.
    * - The first breadcrumb remains fully visible and does not shrink.
-   */   
+   * - On mobile mode (either responsive or forced):
+   *   - Breadcrumbs are styled for mobile navigation showing only back path.
+   *   - Shows the last breadcrumb unless it's the current one.
+   *   - Shows the breadcrumb directly before the current one.
+   * - When returning to desktop mode:
+   *   - Mobile-specific styles and classes are removed.
+   *   - Breadcrumbs are adjusted for width and collapsing if needed.
+   *
+   * Mobile mode can be triggered in two ways:
+   * - Based on a fixed breakpoint (same as other Vaadin components):  
+   *   `(max-width: 450px), (max-height: 450px)`
+   * - Programmatically, using the flag `forceMobileMode`, which allows to enable mobile layout manually.
+   */    
   _updateBreadcrumbs() {
     // Remove existing ellipsis elements before recalculating
     this.querySelectorAll('[part="ellipsis"]').forEach((el) => el.remove());
 
     // Get all breadcrumbs elements
-    const breadcrumbs = Array.from(this.children) as HTMLElement[];
-
-    // If no breadcrumb has attribute "collapse", show all of them without shrinking
-    if(breadcrumbs.every(breadcrumb => !breadcrumb.hasAttribute("collapse"))) {
-      breadcrumbs.forEach((breadcrumb) => {
-        breadcrumb.style.flexShrink = '0';   
-      });
-      return;
-    }
+    const breadcrumbs = Array.from(this.querySelectorAll('vcf-breadcrumb')) as HTMLElement[];
 
     // Reset all breadcrumbs to default visibility and allow middle items to shrink
     breadcrumbs.forEach((breadcrumb) => {
@@ -119,41 +153,81 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
       }
     });
 
-    // Ensure first item do not shrink
-    const firstBreadcrumb = breadcrumbs[0];
-    firstBreadcrumb.style.flexShrink = '0';
-    firstBreadcrumb.style.minWidth = 'auto';
-
-    // Get available space in the container
-    const containerWidth = this.getClientRects()[0].width;
-
-    // Calculate total width of all breadcrumbs
-    let totalWidth = breadcrumbs.reduce((sum, item) => sum + item.getClientRects()[0].width, 0);
-
-    // Find collapse ranges
-    const collapseRanges = this._findCollapseRanges(breadcrumbs);
-
-    // If space is very limited, handle collapsing logic
-    if (totalWidth > (containerWidth + 1)) {
-      collapseRanges.forEach(({ start }) => {
-        const collapseItem = breadcrumbs[start];
-
-        // save the collapsed items
-        let hiddenItems = [];
-  
-        // Hide collapsed items within this range
-        for (let i = start; i <= collapseRanges.find(r => r.start === start)?.end!; i++) {
-          breadcrumbs[i].style.display = 'none';
-          hiddenItems.push(breadcrumbs[i]);
-        }
-  
-        // Insert an ellipsis element if it doesn't already exist
-        if (collapseItem.previousElementSibling?.getAttribute("part") != "ellipsis") {
-          let ellipsis = this._createEllipsisBreadcrumb(hiddenItems);
-          collapseItem.insertAdjacentElement("beforebegin", ellipsis);
-        }        
+    // If mobile mode is active (responsive or forced), apply mobile-specific logic
+    if(this._mobile || this.forceMobileMode) {
+      breadcrumbs.forEach((breadcrumb) => {
+        breadcrumb.classList.add("mobile-back");
       });
-    } 
+
+      // Handle the last breadcrumb: if it's not current, show it with a mobile back icon
+      const lastItem = breadcrumbs[breadcrumbs.length - 1];
+      if (!lastItem.hasAttribute('aria-current')) {
+          lastItem.classList.add('is-last-not-current');
+          lastItem.querySelector(".breadcrumb-anchor")?.classList.add('add-mobile-back-icon');
+      }
+
+      // Iterate through all breadcrumb items except the last, to find the one just before the current item
+      for (let i = 0; i < breadcrumbs.length - 1; i++) {
+          const currentItem = breadcrumbs[i];
+          const nextItem = breadcrumbs[i + 1];
+         // If the next breadcrumb is the current one, mark this as the item before current
+          if (nextItem.hasAttribute('aria-current')) {
+              currentItem.classList.add('is-before-current');
+              currentItem.querySelector(".breadcrumb-anchor")?.classList.add('add-mobile-back-icon');
+          }
+      }
+
+    } else {
+      // If not in mobile mode, remove mobile-specific classes
+      breadcrumbs.forEach((breadcrumb) => {
+        breadcrumb.classList.remove("mobile-back", 'is-last-not-current', 'is-before-current'); 
+        breadcrumb.querySelector(".breadcrumb-anchor")?.classList.remove('add-mobile-back-icon');
+      });
+
+      // If no breadcrumb has attribute "collapse", show all of them without shrinking
+      if(breadcrumbs.every(breadcrumb => !breadcrumb.hasAttribute("collapse"))) {
+        breadcrumbs.forEach((breadcrumb) => {
+          breadcrumb.style.flexShrink = '0';   
+        });
+        return;
+      }
+
+      // Ensure first item do not shrink
+      const firstBreadcrumb = breadcrumbs[0];
+      firstBreadcrumb.style.flexShrink = '0';
+      firstBreadcrumb.style.minWidth = 'auto';
+
+      // Get available space in the container
+      const containerWidth = this.getClientRects()[0].width;
+
+      // Calculate total width of all breadcrumbs
+      let totalWidth = breadcrumbs.reduce((sum, item) => sum + item.getClientRects()[0].width, 0);
+
+      // Find collapse ranges
+      const collapseRanges = this._findCollapseRanges(breadcrumbs);
+
+      // If space is very limited, handle collapsing logic
+      if (totalWidth > (containerWidth + 1)) {
+        collapseRanges.forEach(({ start }) => {
+          const collapseItem = breadcrumbs[start];
+
+          // save the collapsed items
+          let hiddenItems = [];
+    
+          // Hide collapsed items within this range
+          for (let i = start; i <= collapseRanges.find(r => r.start === start)?.end!; i++) {
+            breadcrumbs[i].style.display = 'none';
+            hiddenItems.push(breadcrumbs[i]);
+          }
+    
+          // Insert an ellipsis element if it doesn't already exist
+          if (collapseItem.previousElementSibling?.getAttribute("part") != "ellipsis") {
+            let ellipsis = this._createEllipsisBreadcrumb(hiddenItems);
+            collapseItem.insertAdjacentElement("beforebegin", ellipsis);
+          }        
+        });
+      } 
+    }
   }
 
  /**
@@ -260,6 +334,35 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
     // Add aria tags to the component
     this.setAttribute('aria-label', 'breadcrumb');
     this.setAttribute('role', 'navigation');
+
+    // Attach a media query controller to detect mobile mode responsively
+    // Updates the `_mobile` state based on a fixed breakpoint
+    this.addController(
+      new MediaQueryController(this._mobileMediaQuery, (matches) => {
+        this._mobile = matches;
+      }),
+    );
+
+    // Inject a scoped <style> element to define the mobile back icon behavior
+    const style = document.createElement('style');
+    style.textContent = `
+      /* 
+       * This rule targets an <a> element with the 'breadcrumb-anchor' and
+       * 'add-mobile-back-icon' classes that is a direct child of <vcf-breadcrumb>.
+       *
+       * Although technically global, it's scoped through the component selector
+       * and only applies to breadcrumb anchors styled for mobile mode.
+       */
+      vcf-breadcrumb > a.breadcrumb-anchor.add-mobile-back-icon::before {
+        display: inline;
+        font-family: var(--vcf-breadcrumb-separator-font-family);
+        content: var(--vcf-breadcrumb-mobile-back-symbol);
+        font-size: var(--vcf-breadcrumb-separator-size);
+        margin: var(--vcf-breadcrumb-separator-margin);
+        color: inherit;
+      }
+    `;
+    this.appendChild(style);
   }
 
 }
