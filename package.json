@@ -1,6 +1,6 @@
 {
   "name": "@vaadin-component-factory/vcf-breadcrumb",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Web Component providing an easy way to display breadcrumb.",
   "author": "Vaadin Ltd",  
   "type": "module",
@@ -96,6 +96,12 @@
         "always",
         {
           "ignorePackages": true
+        }
+      ],
+      "sort-imports": [
+        "error",
+        { 
+          "ignoreDeclarationSort": true 
         }
       ]
     }
