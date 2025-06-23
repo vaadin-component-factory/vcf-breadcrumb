@@ -33,7 +33,7 @@ Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-
 ```
 ![breadcrumbs-01](https://github.com/user-attachments/assets/68327eba-57d6-48ad-9b92-3e0bf9c2623b)
 ![breadcrumbs-02](https://github.com/user-attachments/assets/f56e9aa0-756a-412e-86d6-71ee341fd878)
-![breadcrumbs-03](https://github.com/user-attachments/assets/ae3b4816-0892-4651-b002-b4ac99412687)
+![breadcrumbs-03](https://github.com/user-attachments/assets/ae3b4816-0892-4651-b002-b4ac99412687)                           
 
 ## Updates since version 2.0.0
 
@@ -67,6 +67,8 @@ Added support for [Mobile Mode](https://github.com/vaadin-component-factory/vcf-
 When in Mobile Mode, Breadcrumbs are styled for mobile navigation showing only back path.
 - Shows the last breadcrumb unless it's the current one
 - Shows the breadcrumb directly before the current one
+
+![breadcrumbs-mobile-mode](https://github.com/user-attachments/assets/1c555264-944a-4134-83d2-6b47e0c32610)
 
 By default, mobile mode shows a back icon that can be customized using the CSS variable: `--vcf-breadcrumb-mobile-back-symbol`
 
