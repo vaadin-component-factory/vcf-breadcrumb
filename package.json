@@ -1,6 +1,6 @@
 {
   "name": "@vaadin-component-factory/vcf-breadcrumb",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Web Component providing an easy way to display breadcrumb.",
   "author": "Vaadin Ltd",  
   "type": "module",
@@ -42,11 +42,11 @@
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "dependencies": {
-    "@vaadin/component-base": "^24.5.8",
-    "@vaadin/popover": "^24.5.8",
-    "@vaadin/vaadin-lumo-styles": "^24.5.8",
-    "@vaadin/vaadin-themable-mixin": "^24.5.8",
-    "@vaadin/vertical-layout": "^24.5.8",
+    "@vaadin/component-base": "^25.0.0-beta1",
+    "@vaadin/popover": "^25.0.0-beta1",
+    "@vaadin/vaadin-lumo-styles": "^25.0.0-beta1",
+    "@vaadin/vaadin-themable-mixin": "^25.0.0-beta1",
+    "@vaadin/vertical-layout": "^25.0.0-beta1",
     "lit": "^3.0.0"
   },
   "devDependencies": {
