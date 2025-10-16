@@ -21,7 +21,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { ThemableMixin } from "@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js";
 import { ElementMixin } from '@vaadin/component-base/src/element-mixin.js';
 import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
-import { typography } from "@vaadin/vaadin-lumo-styles";
 
 /**
  * A Web Component for individual breadcrumb items in a breadcrumb navigation system.
@@ -61,7 +60,7 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
   }
 
   static get version() {
-    return '2.2.0';
+    return '3.0.0';
   }
 
   render() {
@@ -75,7 +74,7 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
   }
 
   static get styles() {
-    return [typography, css`
+    return [css`
         :host(:last-of-type) [part='separator'] {
           display: none;
         }        
