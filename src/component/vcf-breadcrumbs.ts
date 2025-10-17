@@ -91,7 +91,7 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
   }
 
   static get version() {
-    return '2.2.0';
+    return '3.0.0';
   }
 
   static get styles() {
