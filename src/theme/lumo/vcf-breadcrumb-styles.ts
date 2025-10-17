@@ -6,17 +6,17 @@ registerStyles(
   css`
   
     :host {
-      --vcf-breadcrumb-separator-font-family: 'lumo-icons';
-      --vcf-breadcrumb-separator-symbol: var(--lumo-icons-angle-right);
-      --vcf-breadcrumb-separator-color: var(--lumo-contrast-40pct);
-      --vcf-breadcrumb-separator-size: var(--lumo-font-size-s);
+      --vcf-breadcrumb-separator-font-family: 'lumo-icons', sans-serif;
+      --vcf-breadcrumb-separator-symbol: var(--lumo-icons-angle-right, '➤');
+      --vcf-breadcrumb-separator-color: var(--lumo-contrast-40pct, hsla(214, 47%, 21%, 0.38));
+      --vcf-breadcrumb-separator-size: var(--lumo-font-size-s, 0.875rem);
       --vcf-breadcrumb-separator-margin: 0;
-      --vcf-breadcrumb-separator-padding: 0 var(--lumo-space-xs);
-      --vcf-breadcrumb-mobile-back-symbol: var(--lumo-icons-angle-left);
+      --vcf-breadcrumb-separator-padding: 0 var(--lumo-space-xs, 0,25rem);
+      --vcf-breadcrumb-mobile-back-symbol: var(--lumo-icons-angle-left, '⬅');
     }
 
     :host {
-      font-family: var(--lumo-font-family);
+      font-family: var(--lumo-font-family), -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     }
 
     :host [part='separator'] {
