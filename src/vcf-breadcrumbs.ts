@@ -1,3 +1,3 @@
-import './theme/lumo/vcf-breadcrumb.js';
+import './styles/vcf-breadcrumb.js';
 
 export * from './component/vcf-breadcrumbs.js';
