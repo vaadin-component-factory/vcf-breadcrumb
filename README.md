@@ -69,7 +69,7 @@ When in Mobile Mode, Breadcrumbs are styled for mobile navigation showing only b
 - Shows the last breadcrumb unless it's the current one
 - Shows the breadcrumb directly before the current one
 
-## Updates since version 2.2.0
+## Updates since version 3.0.0
 
 This version is now compatible with Vaadin 25.
 The default styles are mostly those that mimick unaltered Lumo styles and fall back to Lumo styles.
