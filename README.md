@@ -49,14 +49,15 @@ Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-
 
 By default, there are few css variables that help you update the separator's style:
 
-| CSS Variable | Definition | Default value |
-|--------------|------------|---------------|
-| --vcf-breadcrumb-separator-font-family | Font family of the separator icon | lumo-icons |
-| --vcf-breadcrumb-separator-symbol | Separator icon | var(--lumo-icons-angle-right) |
-| --vcf-breadcrumb-separator-color | Color of the separator icon | var(--lumo-contrast-40pct) |
-| --vcf-breadcrumb-separator-size | Size of the separator icon | var(--lumo-font-size-s) |  
-| --vcf-breadcrumb-separator-margin | Margin of the separator icon | 0 |    
-| --vcf-breadcrumb-separator-padding | Padding of the separator icon | 0 var(--lumo-space-xs) |    
+| CSS Variable | Definition | Default value                                     |
+|--------------|------------|---------------------------------------------------|
+| --vcf-breadcrumb-separator-font-family | Font family of the separator icon | 'lumo-icons', sans-serif|
+| --vcf-breadcrumb-separator-symbol | Separator icon | var(--lumo-icons-angle-right, '➤')|
+| --vcf-breadcrumb-separator-color | Color of the separator icon | var(--lumo-contrast-40pct, hsla(214, 47%, 21%, 0.38)) |
+| --vcf-breadcrumb-separator-size | Size of the separator icon | var(--lumo-font-size-s, 0.875rem)|
+| --vcf-breadcrumb-separator-margin | Margin of the separator icon | 0 |                                                 
+| --vcf-breadcrumb-separator-padding | Padding of the separator icon | var(--lumo-space-xs, 0,25rem)                 |
+| --vcf-breadcrumb-separator-mobile-back-symbol | Back icon shown in mobile mode | var(--lumo-icons-angle-left, '⬅')                 |
 
 ## Updates since version 2.2.0
 
@@ -67,6 +68,12 @@ Added support for [Mobile Mode](https://github.com/vaadin-component-factory/vcf-
 When in Mobile Mode, Breadcrumbs are styled for mobile navigation showing only back path.
 - Shows the last breadcrumb unless it's the current one
 - Shows the breadcrumb directly before the current one
+
+## Updates since version 2.2.0
+
+This version is now compatible with Vaadin 25.
+The default styles are mostly those that mimick unaltered Lumo styles and fall back to Lumo styles.
+See above for the new default values.
 
 ![breadcrumbs-mobile-mode](https://github.com/user-attachments/assets/1c555264-944a-4134-83d2-6b47e0c32610)
 
