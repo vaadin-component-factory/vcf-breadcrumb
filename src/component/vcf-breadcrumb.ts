@@ -38,7 +38,7 @@ import { ThemeDetectionMixin } from '@vaadin/vaadin-themable-mixin/vaadin-theme-
  * <vcf-breadcrumb href="/products">Products</vcf-breadcrumb>
  * <vcf-breadcrumb>Current Page</vcf-breadcrumb>
  * ```
- *
+ * 
  * @memberof Vaadin
  * @name vcf-breadcrumb
  * @mixes ElementMixin
