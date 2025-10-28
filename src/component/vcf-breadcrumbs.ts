@@ -18,7 +18,6 @@
  */
 import { html, LitElement, css } from "lit";
 import { customElement, property, state } from 'lit/decorators.js';
-import { ThemableMixin } from "@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js";
 import { ElementMixin } from '@vaadin/component-base/src/element-mixin.js';
 import { MediaQueryController } from '@vaadin/component-base/src/media-query-controller.js';
 import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
@@ -56,12 +55,11 @@ import '@vaadin/vertical-layout';
  * @name vcf-breadcrumbs
  * @mixes ResizeMixin
  * @mixes ElementMixin
- * @mixes ThemableMixin
  * @mixes PolylitMixin
  * @demo demo/index.html
  */
 @customElement("vcf-breadcrumbs")
-export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(PolylitMixin(LitElement)))) {
+export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitElement))) {
 
   /**
    * Flag to indicate if the component is in mobile mode. 
@@ -96,9 +94,16 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
 
   static get styles() {
     return css`
-        :host {
-          display: block;
-        }          
+      :host {
+        display: block;
+      }
+
+      [part='links-list'] {
+        display: flex;
+        justify-content: start;
+        align-content: center;
+        align-items: center;
+      }
     `;
   }
 
@@ -281,41 +286,36 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
     ellipsis.style.minWidth = '0';
 
     // Create a popover to show the hidden breadcumbs and add it to the ellipsis element
-    let popover = document.createElement("vaadin-popover");
+    const popover = document.createElement("vaadin-popover");
     popover.setAttribute("for", id);
     popover.setAttribute("overlay-role", "menu");
-    popover.setAttribute('accessible-name-ref', "hidden breadcrumbs"); 
+    popover.setAttribute('accessible-name-ref', "hidden breadcrumbs");
     popover.setAttribute("theme", "hidden-breadcrumbs");
     popover.setAttribute("position", "bottom-start");
     popover.setAttribute("modal", "true");
 
-    popover.renderer = (root) => {
-      // Ensure content is only added once
-      if (!root.firstChild) {
-        const verticalLayout = document.createElement('vaadin-vertical-layout');
-        verticalLayout.classList.add('hidden-breadcrumbs-layout');
+    const verticalLayout = document.createElement('vaadin-vertical-layout');
+    verticalLayout.classList.add('hidden-breadcrumbs-layout');
 
-        // create new anchor elements for the hidden items and add them to the vertical layout
-        hiddenItems.forEach((element) => {
-          const item = document.createElement('a');
-          item.textContent = element.textContent;
-          item.setAttribute("href", element.getAttribute('href') ?? '');
-          item.setAttribute("role", "menuitem");
-          // Copy element class list
-          const elementClasses = Array.from(element.classList);
-          item.classList.add(...elementClasses);
-          item.classList.add("hidden-breadcrumb-anchor");
+    // create new anchor elements for the hidden items and add them to the vertical layout
+    hiddenItems.forEach((element) => {
+      const item = document.createElement('a');
+      item.textContent = element.textContent;
+      item.setAttribute("href", element.getAttribute('href') ?? '');
+      item.setAttribute("role", "menuitem");
+      // Copy element class list
+      const elementClasses = Array.from(element.classList);
+      item.classList.add(...elementClasses);
+      item.classList.add("hidden-breadcrumb-anchor");
 
-          // Add click event to close popover when clicking an item
-          item.addEventListener("click", () => {
-            popover.opened = false;
-          });
+      // Add click event to close popover when clicking an item
+      item.addEventListener("click", () => {
+        popover.opened = false;
+      });
 
-          verticalLayout.appendChild(item); 
-        });              
-        root.appendChild(verticalLayout);    
-      }
-    };
+      verticalLayout.appendChild(item);
+    });
+    popover.appendChild(verticalLayout);
 
     // append popover to ellipsis to move it later to the anchor within the container
     ellipsis.appendChild(popover);
@@ -342,27 +342,6 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(ThemableMixin(Polyl
         this._mobile = matches;
       }),
     );
-
-    // Inject a scoped <style> element to define the mobile back icon behavior
-    const style = document.createElement('style');
-    style.textContent = `
-      /* 
-       * This rule targets an <a> element with the 'breadcrumb-anchor' and
-       * 'add-mobile-back-icon' classes that is a direct child of <vcf-breadcrumb>.
-       *
-       * Although technically global, it's scoped through the component selector
-       * and only applies to breadcrumb anchors styled for mobile mode.
-       */
-      vcf-breadcrumb > a.breadcrumb-anchor.add-mobile-back-icon::before {
-        display: inline;
-        font-family: var(--vcf-breadcrumb-separator-font-family);
-        content: var(--vcf-breadcrumb-mobile-back-symbol);
-        font-size: var(--vcf-breadcrumb-separator-size);
-        margin: var(--vcf-breadcrumb-separator-margin);
-        color: inherit;
-      }
-    `;
-    this.appendChild(style);
   }
 
 }
