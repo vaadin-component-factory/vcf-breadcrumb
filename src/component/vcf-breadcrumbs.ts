@@ -288,8 +288,8 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
     // Create a popover to show the hidden breadcumbs and add it to the ellipsis element
     const popover = document.createElement("vaadin-popover");
     popover.setAttribute("for", id);
-    popover.setAttribute("overlay-role", "menu");
-    popover.setAttribute('accessible-name-ref', "hidden breadcrumbs");
+    popover.setAttribute("role", "menu");
+    popover.setAttribute('aria-labelledby', id);
     popover.setAttribute("theme", "hidden-breadcrumbs");
     popover.setAttribute("position", "bottom-start");
     popover.setAttribute("modal", "true");
