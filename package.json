@@ -9,13 +9,11 @@
   "license": "https://raw.githubusercontent.com/vaadin-component-factory/vcf-breadcrumb/master/LICENSE",
   "exports": {
     ".": "./dist/src/index.js",
-    "./dist/src/vcf-breadcrumbs.js": "./dist/src/vcf-breadcrumbs.js",
-    "./theme/*": "./theme/*"
+    "./dist/src/vcf-breadcrumbs.js": "./dist/src/vcf-breadcrumbs.js"
   },
   "files": [
     "vcf-*.js",
     "src",
-    "theme",
     "dist"
   ],
   "repository": {
