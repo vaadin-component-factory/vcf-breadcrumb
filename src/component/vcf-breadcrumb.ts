@@ -16,10 +16,11 @@
  * limitations under the License.
  * #L%
  */
-import { html, LitElement, css } from "lit";
+import { LitElement, css, html } from "lit";
 import { customElement, property } from 'lit/decorators.js';
 import { ElementMixin } from '@vaadin/component-base/src/element-mixin.js';
 import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
+import { ThemeDetectionMixin } from '@vaadin/vaadin-themable-mixin/vaadin-theme-detection-mixin.js';
 
 /**
  * A Web Component for individual breadcrumb items in a breadcrumb navigation system.
@@ -42,10 +43,11 @@ import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
  * @name vcf-breadcrumb
  * @mixes ElementMixin
  * @mixes PolylitMixin
+ * @mixes ThemeDetectionMixin
  * @demo demo/index.html
  */
 @customElement("vcf-breadcrumb")
-class VcfBreadcrumb extends ElementMixin(PolylitMixin(LitElement)) {
+class VcfBreadcrumb extends ThemeDetectionMixin(ElementMixin(PolylitMixin(LitElement))) {
 
   @property({ type: String, reflect: true }) 
   href = '';
@@ -72,7 +74,7 @@ class VcfBreadcrumb extends ElementMixin(PolylitMixin(LitElement)) {
   }
 
   static get styles() {
-    return [css`
+    return css`
         :host {
           display: flex;
           align-items: center;
@@ -142,7 +144,27 @@ class VcfBreadcrumb extends ElementMixin(PolylitMixin(LitElement)) {
           margin: var(--vcf-breadcrumb-separator-margin);
           color: inherit;
         }
-    `];
+
+        /* Lumo theme */
+        :host([data-application-theme='lumo']) {
+          --vcf-breadcrumb-separator-font-family: 'lumo-icons';
+          --vcf-breadcrumb-separator-symbol: var(--lumo-icons-angle-right);
+          --vcf-breadcrumb-separator-color: var(--lumo-contrast-40pct);
+          --vcf-breadcrumb-separator-size: var(--lumo-font-size-s);
+          --vcf-breadcrumb-separator-margin: 0;
+          --vcf-breadcrumb-separator-padding: 0 var(--lumo-space-xs);
+          --vcf-breadcrumb-mobile-back-symbol: var(--lumo-icons-angle-left);
+          --vcf-breadcrumb-link-focus-ring-color: var(--vaadin-focus-ring-color, var(--lumo-primary-color-50pct));
+
+          font-family: var(--lumo-font-family);
+          font-size: var(--lumo-font-size-m);
+        }
+
+        :host([data-application-theme='lumo']) ::slotted(a[slot="link-slot"]:not(:any-link)) {
+          /* Lumo global styles use disabled color for anchors without href, force base text color instead */
+          color: var(--lumo-body-text-color) !important;
+        }
+    `;
   }
 
   _createAnchor() {
