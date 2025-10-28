@@ -309,8 +309,11 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
       item.classList.add("hidden-breadcrumb-anchor");
 
       // Add click event to close popover when clicking an item
-      item.addEventListener("click", () => {
+      item.addEventListener("click", (event) => {
         popover.opened = false;
+        // Stop propagation, since the popover is nested within the trigger
+        // element the click would otherwise re-open the popover
+        event.stopPropagation();
       });
 
       verticalLayout.appendChild(item);
