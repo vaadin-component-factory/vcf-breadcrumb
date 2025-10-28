@@ -9,11 +9,13 @@
   "license": "https://raw.githubusercontent.com/vaadin-component-factory/vcf-breadcrumb/master/LICENSE",
   "exports": {
     ".": "./dist/src/index.js",
-    "./dist/src/vcf-breadcrumbs.js": "./dist/src/vcf-breadcrumbs.js"
+    "./dist/src/vcf-breadcrumbs.js": "./dist/src/vcf-breadcrumbs.js",
+    "./theme/*": "./theme/*"
   },
   "files": [
     "vcf-*.js",
     "src",
+    "theme",
     "dist"
   ],
   "repository": {
@@ -42,11 +44,9 @@
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "dependencies": {
-    "@vaadin/component-base": "^24.5.8",
-    "@vaadin/popover": "^24.5.8",
-    "@vaadin/vaadin-lumo-styles": "^24.5.8",
-    "@vaadin/vaadin-themable-mixin": "^24.5.8",
-    "@vaadin/vertical-layout": "^24.5.8",
+    "@vaadin/component-base": "^25.0.0-beta1",
+    "@vaadin/popover": "^25.0.0-beta1",
+    "@vaadin/vertical-layout": "^25.0.0-beta1",
     "lit": "^3.0.0"
   },
   "devDependencies": {
@@ -58,6 +58,7 @@
     "@types/jest": "^29.5.14",
     "@typescript-eslint/eslint-plugin": "^5.48.0",
     "@typescript-eslint/parser": "^5.48.0",
+    "@vaadin/vaadin-lumo-styles": "^25.0.0-beta1",
     "@web/dev-server": "^0.4.3",
     "@web/test-runner": "^0.19.0",
     "@webcomponents/webcomponentsjs": "^2.0.0",

@@ -18,10 +18,8 @@
  */
 import { html, LitElement, css } from "lit";
 import { customElement, property } from 'lit/decorators.js';
-import { ThemableMixin } from "@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js";
 import { ElementMixin } from '@vaadin/component-base/src/element-mixin.js';
 import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
-import { typography } from "@vaadin/vaadin-lumo-styles";
 
 /**
  * A Web Component for individual breadcrumb items in a breadcrumb navigation system.
@@ -39,16 +37,15 @@ import { typography } from "@vaadin/vaadin-lumo-styles";
  * <vcf-breadcrumb href="/products">Products</vcf-breadcrumb>
  * <vcf-breadcrumb>Current Page</vcf-breadcrumb>
  * ```
- * 
+ *
  * @memberof Vaadin
  * @name vcf-breadcrumb
  * @mixes ElementMixin
- * @mixes ThemableMixin
  * @mixes PolylitMixin
  * @demo demo/index.html
  */
 @customElement("vcf-breadcrumb")
-class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))) {
+class VcfBreadcrumb extends ElementMixin(PolylitMixin(LitElement)) {
 
   @property({ type: String, reflect: true }) 
   href = '';
@@ -75,16 +72,76 @@ class VcfBreadcrumb extends ElementMixin(ThemableMixin(PolylitMixin(LitElement))
   }
 
   static get styles() {
-    return [typography, css`
-        :host(:last-of-type) [part='separator'] {
-          display: none;
-        }        
-
+    return [css`
         :host {
           display: flex;
           align-items: center;
           min-width: 40px;
-        }       
+          --vcf-breadcrumb-separator-font-family: 'inherit';
+          --vcf-breadcrumb-separator-symbol: '/';
+          --vcf-breadcrumb-separator-color: var(--vaadin-text-color-secondary, #666);
+          --vcf-breadcrumb-separator-size: var(--vaadin-icon-size, 1lh);
+          --vcf-breadcrumb-separator-margin: 0;
+          --vcf-breadcrumb-separator-padding: 0 var(--vaadin-padding-xs, 6px);
+          --vcf-breadcrumb-mobile-back-symbol: '←';
+          --vcf-breadcrumb-link-focus-ring-color: var(--vaadin-focus-ring-color, Highlight);
+        }
+
+        :host [part='separator'] {
+          margin: var(--vcf-breadcrumb-separator-margin);
+          padding: var(--vcf-breadcrumb-separator-padding);
+        }
+
+        :host [part='separator']::after {
+          font-family: var(--vcf-breadcrumb-separator-font-family);
+          content: var(--vcf-breadcrumb-separator-symbol);
+          color: var(--vcf-breadcrumb-separator-color);
+          font-size: var(--vcf-breadcrumb-separator-size);
+          speak: none;
+        }
+
+        :host(:last-of-type) [part='separator'] {
+          display: none;
+        }
+
+        [part='link'] {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+  
+        /* Focus ring */
+        :host(:focus-within) [part="link"] {
+          outline: var(--vcf-breadcrumb-link-focus-ring-color) auto 1px;
+          outline-offset: 1px;
+        }
+  
+        ::slotted(a:focus) {
+          outline: none;
+        }
+  
+        /* mobile back mode */
+        :host(.mobile-back) {
+          display: none;
+        }
+  
+        :host(.mobile-back) [part='separator'] {
+          display: none;
+        }
+  
+        :host(.mobile-back.is-last-not-current),
+        :host(.mobile-back.is-before-current) {
+          display: inline-block;
+        }
+
+        ::slotted(a.breadcrumb-anchor.add-mobile-back-icon)::before {
+          display: inline;
+          font-family: var(--vcf-breadcrumb-separator-font-family);
+          content: var(--vcf-breadcrumb-mobile-back-symbol);
+          font-size: var(--vcf-breadcrumb-separator-size);
+          margin: var(--vcf-breadcrumb-separator-margin);
+          color: inherit;
+        }
     `];
   }
 

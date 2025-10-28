@@ -35,6 +35,14 @@ Add `<vcf-breadcrumbs>` element to the page. Inside added element add few `<vcf-
 ![breadcrumbs-02](https://github.com/user-attachments/assets/f56e9aa0-756a-412e-86d6-71ee341fd878)
 ![breadcrumbs-03](https://github.com/user-attachments/assets/ae3b4816-0892-4651-b002-b4ac99412687)                           
 
+## Updates since version 3.0.0
+
+By default, the component uses a minimal set of functional styles that provide a foundation for a custom theme.
+To use the component with the Vaadin Lumo theme, import the component's Lumo theme from `@vaadin-component-factory/vcf-breadcrumb/theme/lumo.css`.
+
+`ThemableMixin` has been removed from the component, and injecting styles into the component's shadow root using `registerStyles` is no longer supported.
+Use global CSS to style the component using part names and CSS variables instead.
+
 ## Updates since version 2.0.0
 
 - Lit based component with theming support.

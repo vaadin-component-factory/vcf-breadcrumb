@@ -1,1 +1,1 @@
-export { VcfBreadcrumbs as VcfBreadcrumbs } from './component/vcf-breadcrumbs.js';
+export * from './vcf-breadcrumbs.js';
