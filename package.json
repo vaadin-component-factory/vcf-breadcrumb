@@ -2,7 +2,7 @@
   "name": "@vaadin-component-factory/vcf-breadcrumb",
   "version": "2.2.0",
   "description": "Web Component providing an easy way to display breadcrumb.",
-  "author": "Vaadin Ltd",  
+  "author": "Vaadin Ltd",
   "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
@@ -42,10 +42,10 @@
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "dependencies": {
-    "@vaadin/component-base": "^25.0.0-beta2",
-    "@vaadin/popover": "^25.0.0-beta2",
-    "@vaadin/vertical-layout": "^25.0.0-beta2",
-    "@vaadin/vaadin-themable-mixin": "^25.0.0-beta2",
+    "@vaadin/component-base": "^25.0.0-beta4",
+    "@vaadin/popover": "^25.0.0-beta4",
+    "@vaadin/vertical-layout": "^25.0.0-beta4",
+    "@vaadin/vaadin-themable-mixin": "^25.0.0-beta4",
     "lit": "^3.0.0"
   },
   "devDependencies": {
@@ -57,7 +57,7 @@
     "@types/jest": "^29.5.14",
     "@typescript-eslint/eslint-plugin": "^5.48.0",
     "@typescript-eslint/parser": "^5.48.0",
-    "@vaadin/vaadin-lumo-styles": "^25.0.0-beta2",
+    "@vaadin/vaadin-lumo-styles": "^25.0.0-beta4",
     "@web/dev-server": "^0.4.3",
     "@web/test-runner": "^0.19.0",
     "@webcomponents/webcomponentsjs": "^2.0.0",
@@ -100,8 +100,8 @@
       ],
       "sort-imports": [
         "error",
-        { 
-          "ignoreDeclarationSort": true 
+        {
+          "ignoreDeclarationSort": true
         }
       ]
     }
