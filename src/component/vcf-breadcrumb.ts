@@ -21,6 +21,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { ElementMixin } from '@vaadin/component-base/src/element-mixin.js';
 import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
 import { ThemeDetectionMixin } from '@vaadin/vaadin-themable-mixin/vaadin-theme-detection-mixin.js';
+import { SlotStylesMixin } from "@vaadin/component-base";
 
 /**
  * A Web Component for individual breadcrumb items in a breadcrumb navigation system.
@@ -47,7 +48,7 @@ import { ThemeDetectionMixin } from '@vaadin/vaadin-themable-mixin/vaadin-theme-
  * @demo demo/index.html
  */
 @customElement("vcf-breadcrumb")
-class VcfBreadcrumb extends ThemeDetectionMixin(ElementMixin(PolylitMixin(LitElement))) {
+class VcfBreadcrumb extends SlotStylesMixin(ElementMixin(ThemeDetectionMixin(PolylitMixin(LitElement)))) {
 
   @property({ type: String, reflect: true }) 
   href = '';
@@ -112,16 +113,6 @@ class VcfBreadcrumb extends ThemeDetectionMixin(ElementMixin(PolylitMixin(LitEle
           text-overflow: ellipsis;
         }
   
-        /* Focus ring */
-        :host(:focus-within) [part="link"] {
-          outline: var(--vcf-breadcrumb-link-focus-ring-color) auto 1px;
-          outline-offset: 1px;
-        }
-  
-        ::slotted(a:focus) {
-          outline: none;
-        }
-  
         /* mobile back mode */
         :host(.mobile-back) {
           display: none;
@@ -159,12 +150,37 @@ class VcfBreadcrumb extends ThemeDetectionMixin(ElementMixin(PolylitMixin(LitEle
           font-family: var(--lumo-font-family);
           font-size: var(--lumo-font-size-m);
         }
-
-        :host([data-application-theme='lumo']) ::slotted(a[slot="link-slot"]:not(:any-link)) {
-          /* Lumo global styles use disabled color for anchors without href, force base text color instead */
-          color: var(--lumo-body-text-color) !important;
-        }
     `;
+  }
+
+  // @ts-expect-error overriding property from `SlotStylesMixinClass`
+  override get slotStyles(): string[] {
+    const tag = this.localName;
+    const lumo = '[data-application-theme="lumo"]';
+
+    /**
+     * These rules target slotted `<vaadin-button>` elements to apply base
+     * styles for icons that can be then overridden by the theme CSS. This
+     * is needed as we can't use `::part()` after `::slotted()` selector.
+     * Use `:where()` to ensure this CSS has lower specificity than Lumo.
+     */
+    return [
+      `
+        ${tag}${lumo} a:not(:any-link) {
+          color: var(--lumo-body-text-color);
+        }
+        ${tag}:has(a:focus)::part(link),
+        ${tag}[part="ellipsis"]:has(a[aria-expanded="false"]:focus)::part(link),
+        ${tag}[part="ellipsis"] vaadin-popover a:focus {
+          outline: var(--vcf-breadcrumb-link-focus-ring-color) auto 1px;
+          outline-offset: 1px;
+        }
+        ${tag} a:focus,
+        ${tag}[part="ellipsis"]:has(a:focus)::part(link) {
+          outline: none;
+        }
+      `,
+    ];
   }
 
   _createAnchor() {
@@ -189,7 +205,7 @@ class VcfBreadcrumb extends ThemeDetectionMixin(ElementMixin(PolylitMixin(LitEle
       const popover = this.querySelector('vaadin-popover[for="' + this.id + '"]');
       if (popover) {
         anchor.addEventListener("keydown", (event) => {
-          if (event.key === " " || event.key === "Space") {
+          if (event.key === " " || event.key === "Space" || event.key === "Enter") {
             event.preventDefault();
              // @ts-ignore
             popover.opened = !popover.opened;
