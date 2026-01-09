@@ -61,7 +61,7 @@ class VcfBreadcrumb extends SlotStylesMixin(ElementMixin(ThemeDetectionMixin(Pol
   }
 
   static get version() {
-    return '2.2.0';
+    return '3.0.0';
   }
 
   render() {
