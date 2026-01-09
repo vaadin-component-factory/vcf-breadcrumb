@@ -269,6 +269,7 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
    * - A `vaadin-popover` is attached to display the hidden breadcrumbs as a vertical list.
    * - Clicking an item inside the popover closes the popover.
    * - The ellipsis is dynamically inserted and removed as needed based on available space.
+   * - The popover element is not focusable to improve accessibility; focus is set to the first menu item when opened.
    * 
    * @param {HTMLElement[]} hiddenItems - The list of breadcrumbs that will be hidden and represented by the ellipsis
    * @returns {HTMLElement} An ellipsis breadcrumb element with an associated popover
@@ -293,9 +294,13 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
     popover.setAttribute("theme", "hidden-breadcrumbs");
     popover.setAttribute("position", "bottom-start");
     popover.setAttribute("modal", "true");
+    // Prevent the popover itself from being a focus target for accessibility
+    popover.setAttribute("tabindex", "-1");
 
     const verticalLayout = document.createElement('vaadin-vertical-layout');
     verticalLayout.classList.add('hidden-breadcrumbs-layout');
+    // Prevent the layout container from being a focus target
+    verticalLayout.setAttribute("tabindex", "-1");
 
     // create new anchor elements for the hidden items and add them to the vertical layout
     hiddenItems.forEach((element) => {
@@ -319,6 +324,19 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
       verticalLayout.appendChild(item);
     });
     popover.appendChild(verticalLayout);
+
+    // Focus the first menu item when the popover opens
+    popover.addEventListener('opened-changed', (event: any) => {
+      if (event.detail.value) {
+        // Use requestAnimationFrame to ensure the popover is fully rendered before focusing
+        requestAnimationFrame(() => {
+          const firstMenuItem = verticalLayout.querySelector('a[role="menuitem"]') as HTMLElement;
+          if (firstMenuItem) {
+            firstMenuItem.focus();
+          }
+        });
+      }
+    });
 
     // append popover to ellipsis to move it later to the anchor within the container
     ellipsis.appendChild(popover);
