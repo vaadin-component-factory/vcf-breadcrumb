@@ -1,7 +1,7 @@
 /*-
  * #%L
  * 
- * Copyright (C) 2018 - 2025 Vaadin Ltd
+ * Copyright (C) 2018 - 2026 Vaadin Ltd
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
