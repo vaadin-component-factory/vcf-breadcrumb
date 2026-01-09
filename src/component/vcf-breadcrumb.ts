@@ -230,6 +230,12 @@ class VcfBreadcrumb extends SlotStylesMixin(ElementMixin(ThemeDetectionMixin(Pol
       this.setAttribute('aria-current', 'page');
     }
 
+    // Hide the breadcrumb wrapper from screen readers when it has an href,
+    // allowing only the nested <a> element to be announced as a link
+    if (this.href && !this._isEllipsisElement()) {
+      this.setAttribute('aria-hidden', 'true');
+    }
+
     // Create the anchor element to add to the link slot
     this._createAnchor();
   }
