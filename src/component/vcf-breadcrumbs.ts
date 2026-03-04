@@ -89,7 +89,7 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
   }
 
   static get version() {
-    return '3.0.0';
+    return '3.0.1';
   }
 
   static get styles() {
