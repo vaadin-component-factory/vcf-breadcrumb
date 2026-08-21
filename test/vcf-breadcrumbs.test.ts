@@ -52,6 +52,16 @@ const ellipses = (list: VcfBreadcrumbs) =>
   list.querySelectorAll('[part="ellipsis"]');
 
 /**
+ * The labels the user actually sees. Mobile mode hides items through the
+ * `mobile-back` stylesheet rather than through inline styles, so the effective
+ * `display` has to be read rather than `style.display`.
+ */
+const shownLabels = (list: VcfBreadcrumbs) =>
+  items(list)
+    .filter(item => getComputedStyle(item).display !== 'none')
+    .map(item => item.textContent!.trim());
+
+/**
  * The generated ellipsis carries its popover, and therefore the hidden items'
  * labels, inside itself - so read it as "…" rather than by text content.
  */
@@ -254,6 +264,15 @@ describe('vcf-breadcrumbs', () => {
       ).to.be.true;
       expect(listeners).to.have.lengthOf.at.least(1);
 
+      // The layout runs once before the items have marked themselves with
+      // `aria-current` in their own `firstUpdated()`. The current page must not
+      // be left over as the visible back path because of that first, incomplete
+      // pass - only the item before it is shown.
+      const [, current] = items(responsive);
+      expect(current.getAttribute('aria-current')).to.equal('page');
+      expect(current.classList.contains('is-last-not-current')).to.be.false;
+      expect(shownLabels(responsive)).to.eql(['Home']);
+
       // A later breakpoint change must recalculate too, even though `_mobile` is
       // no longer a reactive property.
       listeners.forEach(listener => listener({ matches: false }));
@@ -286,6 +305,35 @@ describe('vcf-breadcrumbs', () => {
 
       expect(items(list).some(item => item.classList.contains('mobile-back')))
         .to.be.false;
+    });
+
+    it('hides the current page when mobile mode is on from the first render', async () => {
+      const forced = await fixture<VcfBreadcrumbs>(html`
+        <vcf-breadcrumbs force-mobile-mode style="width: 240px">
+          <vcf-breadcrumb href="/">Home</vcf-breadcrumb>
+          <vcf-breadcrumb href="/section">Section</vcf-breadcrumb>
+          <vcf-breadcrumb>Current</vcf-breadcrumb>
+        </vcf-breadcrumbs>
+      `);
+      await settle();
+
+      // Same race as the responsive case: `forceMobileMode` is already set when
+      // `updated()` first runs, so the layout is calculated before any item has
+      // its `aria-current`.
+      const [, section, current] = items(forced);
+      expect(current.getAttribute('aria-current')).to.equal('page');
+      expect(current.classList.contains('is-last-not-current')).to.be.false;
+      expect(section.classList.contains('is-before-current')).to.be.true;
+      expect(shownLabels(forced)).to.eql(['Section']);
+    });
+
+    it('hides the current page when forceMobileMode is set after render', async () => {
+      list.forceMobileMode = true;
+      await settle();
+
+      const [home, current] = items(list);
+      expect(current.classList.contains('is-last-not-current')).to.be.false;
+      expect(shownLabels(list)).to.eql([home.textContent!.trim()]);
     });
 
     it('shows the item before the current one as the back path', async () => {
