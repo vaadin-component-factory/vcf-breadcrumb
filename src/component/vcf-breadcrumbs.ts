@@ -214,7 +214,7 @@ export class VcfBreadcrumbs extends ResizeMixin(
   }
 
   static get version() {
-    return '3.0.3';
+    return '3.0.4';
   }
 
   static get styles() {
