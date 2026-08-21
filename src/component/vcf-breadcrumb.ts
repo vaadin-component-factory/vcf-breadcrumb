@@ -62,7 +62,7 @@ class VcfBreadcrumb extends SlotStylesMixin(
   }
 
   static get version() {
-    return '3.0.2';
+    return '3.0.3';
   }
 
   render() {
