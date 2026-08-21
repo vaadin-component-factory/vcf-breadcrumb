@@ -300,11 +300,27 @@ export class VcfBreadcrumbs extends ResizeMixin(
     // Reset all breadcrumbs to default visibility and allow middle items to shrink.
     // Visibility is restored unconditionally: an item hidden by a previous run may
     // since have lost its "collapse" attribute, and would otherwise stay hidden.
+    //
+    // The mobile classes are cleared here rather than only on the desktop branch,
+    // so that every recalculation starts from a clean slate and the branch below
+    // is free to just add what currently applies. This matters because the first
+    // relayout can run before the items have marked themselves with
+    // `aria-current` in their own `firstUpdated()`: without the reset, the
+    // `is-last-not-current` decision taken on that incomplete state would stick
+    // and leave the current page visible in mobile mode for good.
     breadcrumbs.forEach(breadcrumb => {
       breadcrumb.style.display = '';
       breadcrumb.style.flexShrink = breadcrumb.hasAttribute('collapse')
         ? '1'
         : '0';
+      breadcrumb.classList.remove(
+        'mobile-back',
+        'is-last-not-current',
+        'is-before-current'
+      );
+      breadcrumb
+        .querySelector('.breadcrumb-anchor')
+        ?.classList.remove('add-mobile-back-icon');
     });
 
     // If mobile mode is active (responsive or forced), apply mobile-specific logic
@@ -335,18 +351,6 @@ export class VcfBreadcrumbs extends ResizeMixin(
         }
       }
     } else {
-      // If not in mobile mode, remove mobile-specific classes
-      breadcrumbs.forEach(breadcrumb => {
-        breadcrumb.classList.remove(
-          'mobile-back',
-          'is-last-not-current',
-          'is-before-current'
-        );
-        breadcrumb
-          .querySelector('.breadcrumb-anchor')
-          ?.classList.remove('add-mobile-back-icon');
-      });
-
       // If no breadcrumb has attribute "collapse", show all of them without shrinking
       if (
         breadcrumbs.every(breadcrumb => !breadcrumb.hasAttribute('collapse'))
