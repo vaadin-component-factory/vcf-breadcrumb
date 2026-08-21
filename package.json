@@ -32,7 +32,9 @@
     "vcf-*.js",
     "src",
     "types",
-    "dist"
+    "dist",
+    "!dist/test",
+    "custom-elements.json"
   ],
   "repository": {
     "type": "git",
@@ -53,9 +55,10 @@
     "analyze": "cem analyze --litelement",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
     "build": "tsc && node util/copy-types.js && npm run analyze -- --exclude dist",
-    "prepublish": "tsc && node util/copy-types.js && npm run analyze -- --exclude dist",
+    "prepack": "npm run build",
     "check:types": "tsc -p tsconfig.types.json",
-    "lint": "npm run check:types && eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "check:versions": "node util/check-versions.js",
+    "lint": "npm run check:types && npm run check:versions && eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "test": "tsc && wtr --coverage",
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
@@ -75,7 +78,7 @@
     "@open-wc/testing": "^3.1.6",
     "@polymer/iron-component-page": "^4.0.1",
     "@polymer/iron-demo-helpers": "^3.0.0-pre.19",
-    "@types/jest": "^29.5.14",
+    "@types/mocha": "^10.0.10",
     "@typescript-eslint/eslint-plugin": "^5.48.0",
     "@typescript-eslint/parser": "^5.48.0",
     "@vaadin/vaadin-lumo-styles": "^25.0.0",
@@ -88,7 +91,7 @@
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2 || ^6.0.0 || ^7.0.0"
   },
   "bugs": {
     "url": "https://github.com/vaadin-component-factory/vcf-breadcrumb/issues"
@@ -122,6 +125,12 @@
         "error",
         {
           "ignoreDeclarationSort": true
+        }
+      ],
+      "no-param-reassign": [
+        "error",
+        {
+          "props": false
         }
       ]
     }
