@@ -1,19 +1,37 @@
 {
   "name": "@vaadin-component-factory/vcf-breadcrumb",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Web Component providing an easy way to display breadcrumb.",
   "author": "Vaadin Ltd",
   "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "license": "https://raw.githubusercontent.com/vaadin-component-factory/vcf-breadcrumb/master/LICENSE",
   "exports": {
-    ".": "./dist/src/index.js",
-    "./dist/src/vcf-breadcrumbs.js": "./dist/src/vcf-breadcrumbs.js"
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    },
+    "./vcf-breadcrumbs.js": {
+      "types": "./dist/src/vcf-breadcrumbs.d.ts",
+      "default": "./dist/src/vcf-breadcrumbs.js"
+    },
+    "./vcf-breadcrumb.js": {
+      "types": "./dist/src/component/vcf-breadcrumb.d.ts",
+      "default": "./dist/src/component/vcf-breadcrumb.js"
+    },
+    "./dist/src/vcf-breadcrumbs.js": {
+      "types": "./dist/src/vcf-breadcrumbs.d.ts",
+      "default": "./dist/src/vcf-breadcrumbs.js"
+    },
+    "./dist/src/*": "./dist/src/*",
+    "./package.json": "./package.json"
   },
   "files": [
     "vcf-*.js",
     "src",
+    "types",
     "dist"
   ],
   "repository": {
@@ -34,18 +52,20 @@
   "scripts": {
     "analyze": "cem analyze --litelement",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "build": "tsc && npm run analyze -- --exclude dist",
-    "prepublish": "tsc && npm run analyze -- --exclude dist",
-    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "build": "tsc && node util/copy-types.js && npm run analyze -- --exclude dist",
+    "prepublish": "tsc && node util/copy-types.js && npm run analyze -- --exclude dist",
+    "check:types": "tsc -p tsconfig.types.json",
+    "lint": "npm run check:types && eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "test": "tsc && wtr --coverage",
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "dependencies": {
+    "@open-wc/dedupe-mixin": "^1.3.0",
     "@vaadin/component-base": "^25.0.0",
     "@vaadin/popover": "^25.0.0",
-    "@vaadin/vertical-layout": "^25.0.0",
     "@vaadin/vaadin-themable-mixin": "^25.0.0",
+    "@vaadin/vertical-layout": "^25.0.0",
     "lit": "^3.0.0",
     "tslib": "^2.4.0"
   },
