@@ -25,7 +25,14 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   /** Amount of browsers to run concurrently */
   // concurrentBrowsers: 2,
 
-  /** Amount of test files per browser to test concurrently */
-  // concurrency: 1,
+  /**
+   * One test file at a time. The component settles through `requestAnimationFrame`
+   * (MutationObserver and ResizeObserver deliveries), and the tests wait the same
+   * way. Chrome throttles animation frames in backgrounded pages, so as soon as two
+   * test files share a browser instance the pages that are not in front stall and
+   * every `nextFrame()` wait times out. Serialising keeps the running page in front;
+   * the whole suite takes about two seconds.
+   */
+  concurrency: 1,
 
 });
