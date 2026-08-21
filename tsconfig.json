@@ -15,10 +15,12 @@
     "sourceMap": true,
     "inlineSources": true,
     "rootDir": "./",
-    "declaration": true,
+    "declaration": false,
     "incremental": true,
+    "tsBuildInfoFile": "./.tmp/tsconfig.tsbuildinfo",
     "skipLibCheck": true,
-    "allowJs": true,
+    "allowJs": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["types", "dist", "node_modules"]
 }

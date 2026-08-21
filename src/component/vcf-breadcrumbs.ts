@@ -16,7 +16,7 @@
  * limitations under the License.
  * #L%
  */
-import { html, LitElement, css } from "lit";
+import { html, LitElement, css, PropertyValues } from "lit";
 import { customElement, property, state } from 'lit/decorators.js';
 import { ElementMixin } from '@vaadin/component-base/src/element-mixin.js';
 import { MediaQueryController } from '@vaadin/component-base/src/media-query-controller.js';
@@ -24,6 +24,14 @@ import { PolylitMixin } from '@vaadin/component-base/src/polylit-mixin.js';
 import { ResizeMixin } from '@vaadin/component-base/src/resize-mixin.js';
 import '@vaadin/popover';
 import '@vaadin/vertical-layout';
+
+/**
+ * Whether the node is part of the ellipsis element that `_updateBreadcrumbs()`
+ * generates, and therefore a mutation the component caused itself.
+ */
+function isGeneratedEllipsis(node: Node) {
+  return node instanceof Element && !!node.closest('[part="ellipsis"]');
+}
 
 /**
  * A Web Component based on LitElement for displaying breadcrumbs.
@@ -84,12 +92,18 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
   @property({ type: Boolean })
   forceMobileMode = false;
 
+  /**
+   * Observes the light DOM so that the layout is recalculated whenever the
+   * breadcrumb trail itself changes, not only when the component is resized.
+   */
+  private __trailObserver?: MutationObserver;
+
   static get is() {
     return 'vcf-breadcrumbs';
   }
 
   static get version() {
-    return '3.0.1';
+    return '3.0.2';
   }
 
   static get styles() {
@@ -115,6 +129,22 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
    */
   _onResize() {
     this._updateBreadcrumbs();
+  }
+
+  /**
+   * Recalculate when the mobile mode changes, so that toggling `forceMobileMode`
+   * (or crossing the responsive breakpoint) applies immediately instead of
+   * waiting for the next resize.
+   *
+   * @protected
+   * @override
+   */
+  updated(props: PropertyValues) {
+    super.updated(props);
+
+    if (props.has('forceMobileMode') || props.has('_mobile')) {
+      this._updateBreadcrumbs();
+    }
   }
 
   /**
@@ -148,14 +178,18 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
     // Get all breadcrumbs elements
     const breadcrumbs = Array.from(this.querySelectorAll('vcf-breadcrumb')) as HTMLElement[];
 
-    // Reset all breadcrumbs to default visibility and allow middle items to shrink
+    // Nothing to lay out. Reachable now that the trail is observed: a consumer
+    // may empty the component before repopulating it.
+    if (breadcrumbs.length === 0) {
+      return;
+    }
+
+    // Reset all breadcrumbs to default visibility and allow middle items to shrink.
+    // Visibility is restored unconditionally: an item hidden by a previous run may
+    // since have lost its "collapse" attribute, and would otherwise stay hidden.
     breadcrumbs.forEach((breadcrumb) => {
-      if(breadcrumb.hasAttribute("collapse")){
-        breadcrumb.style.display = '';
-        breadcrumb.style.flexShrink = '1';    
-      } else {
-        breadcrumb.style.flexShrink = '0';   
-      }
+      breadcrumb.style.display = '';
+      breadcrumb.style.flexShrink = breadcrumb.hasAttribute("collapse") ? '1' : '0';
     });
 
     // If mobile mode is active (responsive or forced), apply mobile-specific logic
@@ -202,11 +236,17 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
       firstBreadcrumb.style.flexShrink = '0';
       firstBreadcrumb.style.minWidth = 'auto';
 
-      // Get available space in the container
-      const containerWidth = this.getClientRects()[0].width;
+      // Get available space in the container. There is no box to measure while
+      // the component is detached or hidden, in which case collapsing is
+      // deferred to the next resize or trail change that happens when visible.
+      const containerRect = this.getClientRects()[0];
+      if (!containerRect) {
+        return;
+      }
+      const containerWidth = containerRect.width;
 
       // Calculate total width of all breadcrumbs
-      let totalWidth = breadcrumbs.reduce((sum, item) => sum + item.getClientRects()[0].width, 0);
+      let totalWidth = breadcrumbs.reduce((sum, item) => sum + (item.getClientRects()[0]?.width ?? 0), 0);
 
       // Find collapse ranges
       const collapseRanges = this._findCollapseRanges(breadcrumbs);
@@ -363,6 +403,58 @@ export class VcfBreadcrumbs extends ResizeMixin(ElementMixin(PolylitMixin(LitEle
         this._mobile = matches;
       }),
     );
+
+    this.__observeTrail();
   }
 
+  /**
+   * Observes the breadcrumb trail so that the layout is recalculated whenever it
+   * changes, and not only when the component is resized. Without this, adding,
+   * removing or reordering `<vcf-breadcrumb>` elements at runtime leaves the
+   * previous collapse and mobile state in place until the next resize, which
+   * means every consumer that renders the trail dynamically - React, Flow or
+   * plain JS - has to reach for an internal method to force a recalculation.
+   *
+   * Two kinds of change are watched:
+   * - the child list, which covers adding, removing and reordering items;
+   * - the `collapse` and `aria-current` attributes on items, which decide what
+   *   may be collapsed and which item is the current page.
+   *
+   * `_updateBreadcrumbs()` itself removes and inserts the generated ellipsis
+   * element, so those records are filtered out. Otherwise each recalculation
+   * would trigger the observer again and loop indefinitely.
+   *
+   * @private
+   */
+  private __observeTrail() {
+    this.__trailObserver = new MutationObserver((records) => {
+      const changed = records.some((record) => {
+        if (record.type === 'attributes') {
+          return !isGeneratedEllipsis(record.target);
+        }
+
+        // Only the host's own children form the trail. Nodes added deeper in the
+        // subtree, such as the anchor each `<vcf-breadcrumb>` builds for itself,
+        // do not change it.
+        if (record.target !== this) {
+          return false;
+        }
+
+        return Array.from(record.addedNodes)
+          .concat(Array.from(record.removedNodes))
+          .some((node) => !isGeneratedEllipsis(node));
+      });
+
+      if (changed) {
+        this._updateBreadcrumbs();
+      }
+    });
+
+    this.__trailObserver.observe(this, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['collapse', 'aria-current'],
+    });
+  }
 }
